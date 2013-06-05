@@ -135,6 +135,26 @@
 			<key>points</key>
 			<integer>5</integer>
 		</dict>
+		<dict>
+			<key>set_id</key>
+			<string>2</string>
+			<key>unique_id</key>
+			<string>S2-7</string>
+			<key>image_name</key>
+			<string>meme7.png</string>
+			<key>points</key>
+			<integer>5</integer>
+		</dict>
+		<dict>
+			<key>set_id</key>
+			<string>2</string>
+			<key>unique_id</key>
+			<string>S2-8</string>
+			<key>image_name</key>
+			<string>meme8.png</string>
+			<key>points</key>
+			<integer>5</integer>
+		</dict>
 	</array>
 	<array>
 		<dict>
@@ -184,6 +204,88 @@
 			<string>S3-4</string>
 			<key>image_name</key>
 			<string>image-e.png</string>
+			<key>points</key>
+			<integer>5</integer>
+		</dict>
+	</array>
+	<array>
+		<dict>
+			<key>set_id</key>
+			<string>4</string>
+			<key>unique_id</key>
+			<string>S4-0</string>
+			<key>image_name</key>
+			<string>ball0.png</string>
+			<key>points</key>
+			<integer>5</integer>
+		</dict>
+		<dict>
+			<key>set_id</key>
+			<string>4</string>
+			<key>unique_id</key>
+			<string>S4-1</string>
+			<key>image_name</key>
+			<string>ball1.png</string>
+			<key>points</key>
+			<integer>5</integer>
+		</dict>
+		<dict>
+			<key>set_id</key>
+			<string>4</string>
+			<key>unique_id</key>
+			<string>S4-2</string>
+			<key>image_name</key>
+			<string>ball2.png</string>
+			<key>points</key>
+			<integer>5</integer>
+		</dict>
+		<dict>
+			<key>set_id</key>
+			<string>4</string>
+			<key>unique_id</key>
+			<string>S4-3</string>
+			<key>image_name</key>
+			<string>ball3.png</string>
+			<key>points</key>
+			<integer>5</integer>
+		</dict>
+		<dict>
+			<key>set_id</key>
+			<string>4</string>
+			<key>unique_id</key>
+			<string>S4-4</string>
+			<key>image_name</key>
+			<string>ball4.png</string>
+			<key>points</key>
+			<integer>5</integer>
+		</dict>
+		<dict>
+			<key>set_id</key>
+			<string>4</string>
+			<key>unique_id</key>
+			<string>S4-5</string>
+			<key>image_name</key>
+			<string>ball5.png</string>
+			<key>points</key>
+			<integer>5</integer>
+		</dict>
+		<dict>
+			<key>set_id</key>
+			<string>4</string>
+			<key>unique_id</key>
+			<string>S4-6</string>
+			<key>image_name</key>
+			<string>ball6.png</string>
+			<key>points</key>
+			<integer>5</integer>
+		</dict>
+		<dict>
+			<key>set_id</key>
+			<string>4</string>
+			<key>unique_id</key>
+			<string>S4-7</string>
+			<key>image_name</key>
+			<string>ball7.png</string>
 			<key>points</key>
 			<integer>5</integer>
 		</dict>

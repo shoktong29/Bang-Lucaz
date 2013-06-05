@@ -261,7 +261,7 @@ float const kMIN_SCORE = 60.0f;
         }
         else{
             UIImage *temp = [UIImage imageNamed:object.imageName];
-            [btn setImage:[Helper grayscaleImage:temp color:[UIColor grayColor]] forState:UIControlStateNormal];
+            [btn setImage:temp forState:UIControlStateNormal];
             [btn setImage:[UIImage imageNamed:object.imageName] forState:UIControlStateDisabled];
         }
         btn.uniqueId = object.uniqueId;
