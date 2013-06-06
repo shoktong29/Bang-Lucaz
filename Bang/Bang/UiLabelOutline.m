@@ -31,7 +31,7 @@
     CGContextSetLineJoin(c, kCGLineJoinRound);
     
     CGContextSetTextDrawingMode(c, kCGTextStroke);
-    self.textColor = UICOLOR_FROM_HEX(0x000033);
+    self.textColor = UICOLOR_FROM_HEX(0x333333);
     [super drawTextInRect:rect];
     
     CGContextSetTextDrawingMode(c, kCGTextFill);

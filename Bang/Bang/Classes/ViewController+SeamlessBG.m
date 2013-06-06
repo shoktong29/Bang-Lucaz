@@ -11,7 +11,7 @@
 @implementation ViewController (SeamlessBG)
 
 - (void)viewDidLoad {
-//    [self cloudScroll];
+    [self cloudScroll];
     [super viewDidLoad];
 }
 

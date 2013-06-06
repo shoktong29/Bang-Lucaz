@@ -18,7 +18,7 @@
     IBOutlet    UIView *viewSelection;
     IBOutlet    UIScrollView *scrollView; 
     IBOutlet    UILabel *labelGetSetGo;
-    MyButton *startButton;
+//    MyButton *startButton;
     GameState   _gamestate;
     GameState   _gamePreviousState;
     UiLabelOutline *labelTime;

@@ -13,7 +13,7 @@
 - (id)init{
     self = [super initWithFrame:CGRectMake(10,150, 300, 100)];
     if (self) {
-        self.backgroundColor = [UIColor brownColor];
+        self.backgroundColor = [UIColor clearColor];
         self.userInteractionEnabled = YES;
     }
     return self;
@@ -23,7 +23,7 @@
     UIView *container = [[UIView alloc]init];
     container.frame = (CGRect){.origin=self.bounds.origin,.size={170,50}};
     container.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-    container.backgroundColor = [UIColor blackColor];
+    container.backgroundColor = [UIColor clearColor];
     
     UIButton *btnHome = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     btnHome.frame = CGRectMake(0, 0, 50, 50);
@@ -39,7 +39,7 @@
     
     UIButton *btnRestart = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     btnRestart.frame = CGRectMake(120, 0, 50, 50);
-    [btnRestart setImage:[UIImage imageNamed:@"iconSettings"] forState:UIControlStateNormal];
+    [btnRestart setImage:[UIImage imageNamed:@"iconRestart"] forState:UIControlStateNormal];
     [btnRestart addTarget:self action:@selector(goRestart) forControlEvents:UIControlEventTouchUpInside];
     [container addSubview:btnRestart];
     

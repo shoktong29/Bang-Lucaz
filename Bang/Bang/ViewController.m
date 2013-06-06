@@ -47,19 +47,19 @@ float const kMIN_SCORE = 60.0f;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"sound_wrong" ofType:@"mp3" inDirectory:@""];
-    soundFileUrl = [NSURL fileURLWithPath:filePath isDirectory:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     if ([self isViewLoaded]) {
         gameSettings = [DataManager sharedInstance].gameSettings;
+//        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"sound_wrong" ofType:@"mp3" inDirectory:@""];
+//        soundFileUrl = [NSURL fileURLWithPath:filePath isDirectory:NO];
         [self setFixedUi];
         timerMain = [NSTimer timerWithTimeInterval:kTIME_INTERVAL target:self selector:@selector(runLoop:) userInfo:nil repeats:YES];
         [[NSRunLoop mainRunLoop]addTimer:timerMain forMode:NSRunLoopCommonModes];
         [self createObjects];
-        [self startGame];
+        [self willStartGame];
     }
 }
 
@@ -73,14 +73,6 @@ float const kMIN_SCORE = 60.0f;
 - (void)createObjects{
     [listObjects removeAllObjects];
     listObjects = nil;
-    NSString *set = @"s1";
-    switch (gameSettings.setId) {
-        case 2:
-            set = @"s2";
-            break;
-        default:
-            break;
-    }
     listObjects = [FMDBAccess getListItemWithSetId:gameSettings.setId];
 }
 
@@ -103,7 +95,7 @@ float const kMIN_SCORE = 60.0f;
         case modeSurvial:
             countDownTimer = 0;
             speed = 1.2f;
-            playerLife = 3;
+            playerLife = 1;
             break;
         case modeNormal:
             countDownTimer = timeLimit;
@@ -119,14 +111,24 @@ float const kMIN_SCORE = 60.0f;
             break;
     }
     [self changeState:stateWillStart]; //Do any pre animation in this state
-    [startButton setTitle:@"Start Game" forState:UIControlStateNormal];
-    startButton.hidden = NO;
     labelGetSetGo.hidden = NO;
+    scrollView.hidden = NO;
+}
+
+- (void)willStartGame{
+    [UIView animateWithDuration:0.5f animations:^{
+        self.view.alpha = 0;
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.5f animations:^{
+            self.view.alpha = 1;
+            [self cleanup];
+            [self setDefaultValues];
+            [self startGame];
+        }];
+    }];
 }
 
 - (void)startGame{
-    [self cleanup];
-    [self setDefaultValues];
     [self changeState:stateStart];
 }
 
@@ -136,11 +138,12 @@ float const kMIN_SCORE = 60.0f;
             [self stateStart:tick];
             break;
         case statePlaying:
-            [self statePlayingForMode:gameSettings.gameMode timer:tick];
+            [self statePlaying:tick];
             break;
         case statePause:
             break;
         case stateEnd:
+            [self stateEnd:tick];
             break;
         default:
             break;
@@ -172,43 +175,47 @@ float const kMIN_SCORE = 60.0f;
     
     UIView *viewLabelContainer = [[UIView alloc]init];
     viewLabelContainer.frame = CGRectMake(0, 0, 320, 45);
-    viewLabelContainer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"topBar.png"]];
-;
+    viewLabelContainer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"topBar.png"]];//UICOLOR_FROM_HEX(0x482982)
     [self.view addSubview:viewLabelContainer];
     
     labelScore = [[UiLabelOutline alloc]init];
-    labelScore.frame = CGRectMake(10, 3, 300, 25);
-    labelScore.font = [UIFont fontWithName:@"Arial" size:14];
-    labelScore.textAlignment = UITextAlignmentLeft;
-    labelScore.textColor = [UIColor blackColor];
+    labelScore.frame = CGRectMake(25, 5, 250, 25);
+    labelScore.font = [UIFont fontWithName:@"Helvetica-Bold" size:25];
+    labelScore.textAlignment = UITextAlignmentCenter;
+    labelScore.textColor = UICOLOR_FROM_HEX(0xe3c332);
     labelScore.backgroundColor = [UIColor clearColor];
     [viewLabelContainer addSubview:labelScore];
     
     MyButton *buttonPause = [[MyButton alloc]init];
     [buttonPause setImage:[UIImage imageNamed:@"iconPause.png"] forState:UIControlStateNormal];
-    buttonPause.frame = CGRectMake(275, 10, 30, 25);
+    buttonPause.frame = CGRectMake(280, 10, 30, 25);
     buttonPause.layer.borderColor = [UIColor clearColor].CGColor;
     [buttonPause addTarget:self action:@selector(pauseResume:) forControlEvents:UIControlEventTouchDown];
     [viewLabelContainer addSubview:buttonPause];
     
     UIView *viewProgressBarContainer;
+    UIColor *color;
     switch (gameSettings.gameMode) {
+            
         case modeNormal:
             labelTime = [[UiLabelOutline alloc]init];
-            labelTime.frame = CGRectMake(10, 25, 60, 25);
+            labelTime.frame = CGRectMake(10, 24, 60, 25);
             labelTime.textAlignment = UITextAlignmentLeft;
+            labelTime.textColor = UICOLOR_FROM_HEX(0x868686);
             labelTime.backgroundColor = [UIColor clearColor];
             [viewLabelContainer addSubview:labelTime];
             
             viewProgressBarContainer = [[UIView alloc]init];
             viewProgressBarContainer.frame = CGRectMake(labelTime.frame.origin.x+labelTime.frame.size.width, 32, 200, 10);
             viewProgressBarContainer.layer.borderWidth = 2.0f;
-            viewProgressBarContainer.layer.borderColor = [UIColor grayColor].CGColor;
+            viewProgressBarContainer.backgroundColor = UICOLOR_FROM_HEX(0x868686);
+            color = UICOLOR_FROM_HEX(0xc2c2c2);
+            viewProgressBarContainer.layer.borderColor = color.CGColor;//[UIColor grayColor].CGColor;
             
             viewProgressBar = [[UIImageView alloc] init];
             viewProgressBar.image = [UIImage imageNamed:@"progressBarFill.png"];
             viewProgressBar.frame = viewProgressBarContainer.frame;
-            [viewLabelContainer addSubview:viewProgressBar];
+//            [viewLabelContainer addSubview:viewProgressBar];
             [viewLabelContainer addSubview:viewProgressBarContainer];
 
             
@@ -344,7 +351,8 @@ float const kMIN_SCORE = 60.0f;
 //        labelTimer.text = [NSString stringWithFormat:@"%0.0f",(countDownTimer>0)?countDownTimer:0.00f];
 //    });
     //Animate score label
-    labelScore.text = [NSString stringWithFormat:@"Score: %d + %d*%d",score,highestComboStreak,numberOfQuestions];
+//    labelScore.text = [NSString stringWithFormat:@"Score: %d + %d*%d",score,highestComboStreak,numberOfQuestions];
+    labelScore.text = [NSString stringWithFormat:@"%d",score];
     if(_gamestate == statePlaying){
         CGRect temp;
         float width;
@@ -384,22 +392,22 @@ float const kMIN_SCORE = 60.0f;
     
     switch (_gamestate) {
         case stateStart:
-            startButton.hidden = YES;
-            self.navigationItem.rightBarButtonItem.enabled = YES;
+//            startButton.hidden = YES;
+//            self.navigationItem.rightBarButtonItem.enabled = YES;
             break;
         case statePlaying:
-            startButton.hidden = YES;
-            self.navigationItem.rightBarButtonItem.enabled = YES;
+//            startButton.hidden = YES;
+//            self.navigationItem.rightBarButtonItem.enabled = YES;
             break;
         case stateEnd:
-            [startButton setTitle:@"Play Again?" forState:UIControlStateNormal];
-            startButton.hidden = NO;
-            self.navigationItem.rightBarButtonItem.enabled = YES;// temporarily enable this until we have score board. This will be the only way to restart the game.
+//            [startButton setTitle:@"Play Again?" forState:UIControlStateNormal];
+//            startButton.hidden = NO;
+//            self.navigationItem.rightBarButtonItem.enabled = YES;// temporarily enable this until we have score board. This will be the only way to restart the game.
             break;
             
         case statePause:
-            startButton.hidden = YES;
-            self.navigationItem.rightBarButtonItem.enabled = NO; 
+//            startButton.hidden = YES;
+//            self.navigationItem.rightBarButtonItem.enabled = NO; 
             break;
         default:
             break;
@@ -423,7 +431,7 @@ float const kMIN_SCORE = 60.0f;
 //    });
 }
 
-- (void)generateUiBubble:(id)sender{ // UI that fadesin above the answerswhen user taps it.
+- (void)generateUiBubble:(id)sender{ // UI that fadesin above the answers when user taps on it.
     CGSize bubbleSize = CGSizeMake(50, 30);
     MyButton *temp = (MyButton *)sender;
     CGRect frame = [viewSelection convertRect:temp.frame toView:scrollView];
@@ -526,6 +534,7 @@ float const kMIN_SCORE = 60.0f;
 
 - (IBAction)pauseResume:(id)sender{
     if (_gamestate == statePlaying || _gamestate == stateStart || _gamestate == stateEnd) {
+        scrollView.hidden = YES;
         subMenu = [[InGameMenu alloc]init];
         subMenu.delegate = self;
         subMenu.frame = scrollView.frame;
@@ -534,6 +543,7 @@ float const kMIN_SCORE = 60.0f;
         [self changeState:statePause];
     }
     else if(_gamestate == statePause){
+        scrollView.hidden = NO;
         [self changeState:_gamePreviousState];
         subMenu.delegate = nil;
         [subMenu hideMenu];
@@ -554,12 +564,12 @@ float const kMIN_SCORE = 60.0f;
 }
 
 - (void)didPressRestart{
-    [self startGame];
+    [self willStartGame];
 }
 
 #pragma mark - Methods for different mode
-- (void)statePlayingForMode:(GameMode)mode timer:(NSTimer *)tick{
-    switch (mode) {
+- (void)statePlaying:(NSTimer *)tick{
+    switch (gameSettings.gameMode) {
         case modeTimeAttack:
             counter += tick.timeInterval;
             countDownTimer -= tick.timeInterval;
@@ -650,6 +660,10 @@ float const kMIN_SCORE = 60.0f;
         default:
             break;
     }
+}
+
+- (void)stateEnd:(NSTimer *)tick{
+    
 }
 
 
