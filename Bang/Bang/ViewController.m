@@ -7,7 +7,9 @@
 //
 
 #import "ViewController.h"
-#import <tgmath.h>
+//#import <tgmath.h>
+#import "InGameMenu.h"
+#import "EndRoudVC.h"
 #import "Item.h"
 #import "FMDBAccess.h"
 #import "PlistHelper.h"
@@ -28,6 +30,7 @@ float const kMIN_SCORE = 60.0f;
 
     UIImageView *stageActiveButton;
     InGameMenu *subMenu;
+    EndRoudVC *endRoundMenu;
     float countDownTimer;
     float timeLimit;
     float speed;
@@ -43,6 +46,7 @@ float const kMIN_SCORE = 60.0f;
     GameSettings gameSettings;
     NSURL *soundFileUrl;
     float progressBarWidth;
+    MyButton *buttonPause;
 }
 
 - (void)viewDidLoad{
@@ -186,7 +190,7 @@ float const kMIN_SCORE = 60.0f;
     labelScore.backgroundColor = [UIColor clearColor];
     [viewLabelContainer addSubview:labelScore];
     
-    MyButton *buttonPause = [[MyButton alloc]init];
+    buttonPause = [[MyButton alloc]init];
     [buttonPause setImage:[UIImage imageNamed:@"iconPause.png"] forState:UIControlStateNormal];
     buttonPause.frame = CGRectMake(280, 10, 30, 25);
     buttonPause.layer.borderColor = [UIColor clearColor].CGColor;
@@ -208,16 +212,15 @@ float const kMIN_SCORE = 60.0f;
             viewProgressBarContainer = [[UIView alloc]init];
             viewProgressBarContainer.frame = CGRectMake(labelTime.frame.origin.x+labelTime.frame.size.width, 32, 200, 10);
             viewProgressBarContainer.layer.borderWidth = 2.0f;
-            viewProgressBarContainer.backgroundColor = UICOLOR_FROM_HEX(0x868686);
+//            viewProgressBarContainer.backgroundColor = UICOLOR_FROM_HEX(0x868686);
             color = UICOLOR_FROM_HEX(0xc2c2c2);
             viewProgressBarContainer.layer.borderColor = color.CGColor;//[UIColor grayColor].CGColor;
             
             viewProgressBar = [[UIImageView alloc] init];
-            viewProgressBar.image = [UIImage imageNamed:@"progressBarFill.png"];
+            viewProgressBar.image = [Helper grayscaleImage:[UIImage imageNamed:@"progressBarFill.png"] color:[UIColor darkGrayColor]];
             viewProgressBar.frame = viewProgressBarContainer.frame;
-//            [viewLabelContainer addSubview:viewProgressBar];
+            [viewLabelContainer addSubview:viewProgressBar];
             [viewLabelContainer addSubview:viewProgressBarContainer];
-
             
             progressBarWidth = viewProgressBar.frame.size.width;
             break;
@@ -353,30 +356,7 @@ float const kMIN_SCORE = 60.0f;
     //Animate score label
 //    labelScore.text = [NSString stringWithFormat:@"Score: %d + %d*%d",score,highestComboStreak,numberOfQuestions];
     labelScore.text = [NSString stringWithFormat:@"%d",score];
-    if(_gamestate == statePlaying){
-        CGRect temp;
-        float width;
-    switch (gameSettings.gameMode) {
-        case modeNormal:
-            labelTime.text = [NSString stringWithFormat:@"%0.2f",(countDownTimer>0)?countDownTimer:0.00f];
-            temp = viewProgressBar.frame;
-            width =  (progressBarWidth / timeLimit) * countDownTimer;
-            temp.size.width = width;
-            viewProgressBar.frame = temp;
-            break;
-        case modeSurvial:
-            break;
-        case modeTimeAttack:
-            labelTime.text = [NSString stringWithFormat:@"%0.2f",(countDownTimer>0)?countDownTimer:0.00f];
-            temp = viewProgressBar.frame;
-            width =  (progressBarWidth / timeLimit) * countDownTimer;
-            temp.size.width = width;
-            viewProgressBar.frame = temp;
-            break;
-        default:
-            break;
-    }
-    }
+
     labelTime.text = [NSString stringWithFormat:@"%0.2f",(countDownTimer>0)?countDownTimer:0.00f];
     if (pointsToAdd >0) {
         pointsToAdd--;
@@ -390,24 +370,40 @@ float const kMIN_SCORE = 60.0f;
         }
     }
     
+    CGRect temp;
+    float width;
     switch (_gamestate) {
         case stateStart:
-//            startButton.hidden = YES;
-//            self.navigationItem.rightBarButtonItem.enabled = YES;
+            buttonPause.enabled = YES;
             break;
         case statePlaying:
-//            startButton.hidden = YES;
-//            self.navigationItem.rightBarButtonItem.enabled = YES;
+            buttonPause.enabled = YES;
+            switch (gameSettings.gameMode) {
+                case modeNormal:
+                    labelTime.text = [NSString stringWithFormat:@"%0.2f",(countDownTimer>0)?countDownTimer:0.00f];
+                    temp = viewProgressBar.frame;
+                    width =  (progressBarWidth / timeLimit) * countDownTimer;
+                    temp.size.width = width;
+                    viewProgressBar.frame = temp;
+                    break;
+                case modeSurvial:
+                    break;
+                case modeTimeAttack:
+                    labelTime.text = [NSString stringWithFormat:@"%0.2f",(countDownTimer>0)?countDownTimer:0.00f];
+                    temp = viewProgressBar.frame;
+                    width =  (progressBarWidth / timeLimit) * countDownTimer;
+                    temp.size.width = width;
+                    viewProgressBar.frame = temp;
+                    break;
+                default:
+                    break;
+            }
             break;
         case stateEnd:
-//            [startButton setTitle:@"Play Again?" forState:UIControlStateNormal];
-//            startButton.hidden = NO;
-//            self.navigationItem.rightBarButtonItem.enabled = YES;// temporarily enable this until we have score board. This will be the only way to restart the game.
+            buttonPause.enabled = NO;
             break;
-            
         case statePause:
-//            startButton.hidden = YES;
-//            self.navigationItem.rightBarButtonItem.enabled = NO; 
+            buttonPause.enabled = NO;
             break;
         default:
             break;
@@ -422,9 +418,11 @@ float const kMIN_SCORE = 60.0f;
     [stageActiveButton removeFromSuperview];
     stageActiveButton = nil;
     
-    subMenu.delegate = nil;
     [subMenu hideMenu];
     subMenu = nil;
+    
+    [endRoundMenu hideEndRound];
+    endRoundMenu = nil;
 //    dispatch_queue_t myQueue = dispatch_queue_create("myQueue", NULL);
 //    dispatch_async(myQueue, ^{
 //        dispatch_async(dispatch_get_main_queue(), ^{});
@@ -436,11 +434,12 @@ float const kMIN_SCORE = 60.0f;
     MyButton *temp = (MyButton *)sender;
     CGRect frame = [viewSelection convertRect:temp.frame toView:scrollView];
     CGPoint coords = {frame.origin.x+frame.size.width/2-bubbleSize.width/2,frame.origin.y};
-    UILabel *label = [[UILabel alloc]init];
+    UiLabelOutline *label = [[UiLabelOutline alloc]init];
     label.text = [NSString stringWithFormat:@"+%d",temp.point];
     label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
     label.textAlignment = UITextAlignmentCenter;
-    label.textColor = [UIColor whiteColor];
+    label.textColor = UICOLOR_FROM_HEX(0xe3c332);
     label.frame = (CGRect){.origin=coords,.size=bubbleSize};
     [scrollView addSubview:label];
     
@@ -532,40 +531,50 @@ float const kMIN_SCORE = 60.0f;
     countDownTimer += 5.0f; // add time penalty for wrong answer
 }
 
-- (IBAction)pauseResume:(id)sender{
+- (IBAction)pauseResume:(UIButton *)sender{
     if (_gamestate == statePlaying || _gamestate == stateStart || _gamestate == stateEnd) {
         scrollView.hidden = YES;
         subMenu = [[InGameMenu alloc]init];
-        subMenu.delegate = self;
         subMenu.frame = scrollView.frame;
         subMenu.center = scrollView.center;
+        __weak typeof(self) weakSelf = self;
+        subMenu.onPressRestart = ^{
+            [weakSelf willStartGame];
+        };
+        
+        subMenu.onPressHome = ^{
+            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        };
+        
+        subMenu.onPressContinue = ^{
+            [weakSelf pauseResume:nil];
+        };
         [subMenu showMenu:self.view];
         [self changeState:statePause];
     }
     else if(_gamestate == statePause){
         scrollView.hidden = NO;
         [self changeState:_gamePreviousState];
-        subMenu.delegate = nil;
         [subMenu hideMenu];
         subMenu = nil;
     }
 }
-
-#pragma mark - InGameMenu Methods
-- (void)didPressHome{
-    [self dismissViewControllerAnimated:YES completion:nil];
-    if (self.onCompletion) {
-        self.onCompletion();
-    }
-}
-
-- (void)didPressContinue{
-    [self pauseResume:nil];
-}
-
-- (void)didPressRestart{
-    [self willStartGame];
-}
+//
+//#pragma mark - InGameMenu Methods
+//- (void)didPressHome{
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//    if (self.onCompletion) {
+//        self.onCompletion();
+//    }
+//}
+//
+//- (void)didPressContinue{
+//    [self pauseResume:nil];
+//}
+//
+//- (void)didPressRestart{
+//    [self willStartGame];
+//}
 
 #pragma mark - Methods for different mode
 - (void)statePlaying:(NSTimer *)tick{
@@ -663,7 +672,26 @@ float const kMIN_SCORE = 60.0f;
 }
 
 - (void)stateEnd:(NSTimer *)tick{
-    
+    if (!endRoundMenu) {
+        scrollView.hidden = YES;
+        endRoundMenu = [[EndRoudVC alloc]init];
+        endRoundMenu.frame = scrollView.frame;
+        endRoundMenu.center = scrollView.center;
+        __weak typeof(self) weakSelf = self;
+        endRoundMenu.onPressRestart = ^{
+            [weakSelf willStartGame];
+        };
+        
+        endRoundMenu.onPressHome = ^{
+            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        };
+        
+        endRoundMenu.onPressContinue = ^{
+            scrollView.hidden = NO;
+//            endRoundMenu = nil;
+        };
+        [endRoundMenu showEndRound:self.view];
+    }
 }
 
 

@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "MyButton.h"
-#import "InGameMenu.h"
 #import "GameElement.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UiLabelOutline.h"
 
-@interface ViewController : UIViewController<InGameMenuDelegate>{
+@interface ViewController : UIViewController{
     IBOutlet    UIView *viewStage;
     IBOutlet    UIView *viewSelection;
     IBOutlet    UIScrollView *scrollView; 

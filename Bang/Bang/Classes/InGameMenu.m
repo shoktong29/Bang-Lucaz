@@ -21,32 +21,53 @@
 
 - (void)showMenu:(UIView *)view{
     UIView *container = [[UIView alloc]init];
-    container.frame = (CGRect){.origin=self.bounds.origin,.size={170,50}};
+    container.frame = (CGRect){.origin=self.frame.origin,.size={170,150}};
     container.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+    container.clipsToBounds = NO;
     container.backgroundColor = [UIColor clearColor];
     
     UIButton *btnHome = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    btnHome.frame = CGRectMake(0, 0, 50, 50);
+    btnHome.frame = CGRectMake(0, 100, 50, 50);
     [btnHome setImage:[UIImage imageNamed:@"iconHome"] forState:UIControlStateNormal];
     [btnHome addTarget:self action:@selector(goHome) forControlEvents:UIControlEventTouchUpInside];
     [container addSubview:btnHome];
     
     UIButton *btnContinue = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    btnContinue.frame = CGRectMake(60, 0, 50, 50);
+    btnContinue.frame = CGRectMake(60, 100, 50, 50);
     [btnContinue setImage:[UIImage imageNamed:@"iconPlay"] forState:UIControlStateNormal];
     [btnContinue addTarget:self action:@selector(goContinue) forControlEvents:UIControlEventTouchUpInside];
     [container addSubview:btnContinue];
     
     UIButton *btnRestart = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    btnRestart.frame = CGRectMake(120, 0, 50, 50);
+    btnRestart.frame = CGRectMake(120, 100, 50, 50);
     [btnRestart setImage:[UIImage imageNamed:@"iconRestart"] forState:UIControlStateNormal];
     [btnRestart addTarget:self action:@selector(goRestart) forControlEvents:UIControlEventTouchUpInside];
     [container addSubview:btnRestart];
     
+    UILabel *label = [[UILabel alloc]init];
+    label.frame = CGRectMake(container.frame.size.width/2-170/2, 0, 170, 30);
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = UICOLOR_FROM_HEX(0xffffff);
+    label.text = @"PAUSED";
+    label.textAlignment = UITextAlignmentCenter;
+    [container addSubview:label];
+    
     [container sizeToFit];
     [self addSubview:container];
-    
     [view addSubview:self];
+    
+    /*ANIMATION*/
+    CGAffineTransform trans = CGAffineTransformScale(self.transform, 0.01, 0.01);
+    self.transform = trans;
+    [UIView animateWithDuration:0.3f animations:^{
+        self.transform = CGAffineTransformScale(trans, 110, 110);
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2f animations:^{
+            self.transform = CGAffineTransformScale(trans, 100, 100);
+        } completion:^(BOOL finished) {
+            
+        }];
+    }];
 }
 
 - (void)hideMenu{
@@ -54,20 +75,24 @@
 }
 
 - (void)goHome{
-    if ([_delegate respondsToSelector:@selector(didPressHome)]) {
-        [_delegate didPressHome];
+    if (self.onPressHome) {
+        self.onPressHome();
     }
 }
 
 - (void)goContinue{
-    if ([_delegate respondsToSelector:@selector(didPressContinue)]) {
-        [_delegate didPressContinue];
+    if (self.onPressContinue) {
+        [UIView animateWithDuration:0.4f animations:^{
+            self.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
+        } completion:^(BOOL finished) {
+            [self hideMenu];
+            self.onPressContinue();
+        }];
     }
 }
-
 - (void)goRestart{
-    if ([_delegate respondsToSelector:@selector(didPressRestart)]) {
-        [_delegate didPressRestart];
+    if (self.onPressRestart) {
+        self.onPressRestart();
     }
 }
 

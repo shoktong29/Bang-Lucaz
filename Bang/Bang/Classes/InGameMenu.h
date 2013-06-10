@@ -7,16 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Protocols.h"
 
-@protocol InGameMenuDelegate <NSObject>
-@required
-- (void)didPressRestart;
-- (void)didPressHome;
-- (void)didPressContinue;
-@end
 
 @interface InGameMenu : UIView
-@property(nonatomic, unsafe_unretained) id<InGameMenuDelegate> delegate;
+@property(nonatomic, strong) void(^onPressRestart)(void);
+@property(nonatomic, strong) void(^onPressHome)(void);
+@property(nonatomic, strong) void(^onPressContinue)(void);
 - (void)showMenu:(UIView *)view;
 - (void)hideMenu;
 

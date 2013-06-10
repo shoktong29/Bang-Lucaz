@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Protocols.h"
 
-@interface EndRoudVC : UIViewController
-
+@interface EndRoudVC : UIView
+@property(nonatomic, strong) void(^onPressRestart)(void);
+@property(nonatomic, strong) void(^onPressHome)(void);
+@property(nonatomic, strong) void(^onPressContinue)(void);
+- (void)showEndRound:(UIView *)view;
+- (void)hideEndRound;
 @end

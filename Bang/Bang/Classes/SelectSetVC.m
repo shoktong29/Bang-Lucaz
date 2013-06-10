@@ -18,6 +18,8 @@
 
 @implementation SelectSetVC{
     GameSettings gameSettings;
+    int page;
+    BOOL isAnimating;
 }
 
 
@@ -56,8 +58,8 @@
 - (void)setDefaultUi{
     NSArray *kill = [FMDBAccess getSetIds];
     
-    float kScrollObjHeight = 100;
-    float kScrollObjWidth = 240;
+    float kScrollObjHeight = 200;
+    float kScrollObjWidth = 220;
     //Setup scrollview and its content
 	[_scrollView setBackgroundColor:[UIColor clearColor]];
 	[_scrollView setCanCancelContentTouches:NO];
@@ -75,7 +77,8 @@
 		NSString *imageName = [temp objectForKey:@"image_name"];
 		UIImage *image = [UIImage imageNamed:imageName];
 		UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-        imageView.contentMode = UIViewContentModeCenter;
+        imageView.backgroundColor = [UIColor clearColor];
+        imageView.contentMode =  UIViewContentModeScaleAspectFill| UIViewContentModeCenter;
 		
 		CGRect rect = imageView.frame;
         rect.origin.x = kScrollObjWidth *i;
@@ -87,9 +90,34 @@
 	[_scrollView setContentSize:CGSizeMake((kill.count * kScrollObjWidth), [_scrollView bounds].size.height)];
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    int page = scrollView.contentOffset.x / scrollView.frame.size.width;
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
+    page = scrollView.contentOffset.x / scrollView.frame.size.width;
     gameSettings.setId = page+1; //+1 because setid starts at 1;
     [DataManager sharedInstance].gameSettings = gameSettings;
+    isAnimating = NO;
 }
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    page = scrollView.contentOffset.x / scrollView.frame.size.width;
+    gameSettings.setId = page+1; //+1 because setid starts at 1;
+    [DataManager sharedInstance].gameSettings = gameSettings;
+    isAnimating = NO;
+}
+
+- (IBAction)goNext:(id)sender{
+    if (page<_scrollView.subviews.count-1 && !isAnimating) {
+        isAnimating = YES;
+        float offset = _scrollView.frame.size.width * (page+1);
+        [_scrollView setContentOffset:CGPointMake(offset, 0) animated:YES];
+    }
+}
+
+- (IBAction)goPrevious:(id)sender{
+    if (page>0 && !isAnimating) {
+        isAnimating = YES;
+        float offset = _scrollView.frame.size.width * (page-1);
+        [_scrollView setContentOffset:CGPointMake(offset, 0) animated:YES];
+    }
+}
+
 @end
