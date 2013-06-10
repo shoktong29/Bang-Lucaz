@@ -4,44 +4,36 @@
 <array>
 	<array>
 		<dict>
-			<key>set_id</key>
-			<string>1</string>
 			<key>unique_id</key>
 			<string>S1-0</string>
 			<key>image_name</key>
-			<string>mario0.png</string>
+			<string>image-a.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{16-20}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>1</string>
 			<key>unique_id</key>
 			<string>S1-1</string>
 			<key>image_name</key>
-			<string>mario1.png</string>
+			<string>image-b.png</string>
 			<key>points</key>
-			<integer>6</integer>
+			<string>{16-20}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>1</string>
 			<key>unique_id</key>
 			<string>S1-2</string>
 			<key>image_name</key>
-			<string>mario2.png</string>
+			<string>image-c.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{16-20}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>1</string>
 			<key>unique_id</key>
 			<string>S1-3</string>
 			<key>image_name</key>
-			<string>mario3.png</string>
+			<string>image-d.png</string>
 			<key>points</key>
-			<string>6</string>
+			<string>{16-20}</string>
 		</dict>
 		<dict>
 			<key>set_id</key>
@@ -49,245 +41,149 @@
 			<key>unique_id</key>
 			<string>S1-4</string>
 			<key>image_name</key>
-			<string>mario4.png</string>
+			<string>image-e.png</string>
 			<key>points</key>
-			<string>7</string>
-		</dict>
-		<dict>
-			<key>set_id</key>
-			<string>1</string>
-			<key>unique_id</key>
-			<string>S1-5</string>
-			<key>image_name</key>
-			<string>mario5.png</string>
-			<key>points</key>
-			<integer>5</integer>
+			<string>{16-20}</string>
 		</dict>
 	</array>
 	<array>
 		<dict>
-			<key>set_id</key>
-			<string>2</string>
 			<key>unique_id</key>
 			<string>S2-0</string>
 			<key>image_name</key>
 			<string>meme0.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{11-15}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>2</string>
 			<key>unique_id</key>
 			<string>S2-1</string>
 			<key>image_name</key>
 			<string>meme1.png</string>
 			<key>points</key>
-			<integer>6</integer>
+			<string>{11-15}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>2</string>
 			<key>unique_id</key>
 			<string>S2-2</string>
 			<key>image_name</key>
 			<string>meme2.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{11-15}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>2</string>
 			<key>unique_id</key>
 			<string>S2-3</string>
 			<key>image_name</key>
 			<string>meme3.png</string>
 			<key>points</key>
-			<integer>7</integer>
+			<string>{11-15}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>2</string>
 			<key>unique_id</key>
 			<string>S2-4</string>
 			<key>image_name</key>
 			<string>meme4.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{11-15}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>2</string>
 			<key>unique_id</key>
 			<string>S2-5</string>
 			<key>image_name</key>
 			<string>meme5.png</string>
 			<key>points</key>
-			<integer>6</integer>
+			<string>{11-15}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>2</string>
 			<key>unique_id</key>
 			<string>S2-6</string>
 			<key>image_name</key>
 			<string>meme6.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{11-15}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>2</string>
 			<key>unique_id</key>
 			<string>S2-7</string>
 			<key>image_name</key>
 			<string>meme7.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{11-15}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>2</string>
 			<key>unique_id</key>
 			<string>S2-8</string>
 			<key>image_name</key>
 			<string>meme8.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{11-15}</string>
 		</dict>
 	</array>
 	<array>
 		<dict>
-			<key>set_id</key>
-			<string>3</string>
-			<key>unique_id</key>
-			<string>S3-0</string>
-			<key>image_name</key>
-			<string>image-a.png</string>
-			<key>points</key>
-			<integer>5</integer>
-		</dict>
-		<dict>
-			<key>set_id</key>
-			<string>3</string>
-			<key>unique_id</key>
-			<string>S3-1</string>
-			<key>image_name</key>
-			<string>image-b.png</string>
-			<key>points</key>
-			<integer>6</integer>
-		</dict>
-		<dict>
-			<key>set_id</key>
-			<string>3</string>
-			<key>unique_id</key>
-			<string>S3-2</string>
-			<key>image_name</key>
-			<string>image-c.png</string>
-			<key>points</key>
-			<integer>5</integer>
-		</dict>
-		<dict>
-			<key>set_id</key>
-			<string>3</string>
-			<key>unique_id</key>
-			<string>S3-3</string>
-			<key>image_name</key>
-			<string>image-d.png</string>
-			<key>points</key>
-			<integer>7</integer>
-		</dict>
-		<dict>
-			<key>set_id</key>
-			<string>3</string>
-			<key>unique_id</key>
-			<string>S3-4</string>
-			<key>image_name</key>
-			<string>image-e.png</string>
-			<key>points</key>
-			<integer>5</integer>
-		</dict>
-	</array>
-	<array>
-		<dict>
-			<key>set_id</key>
-			<string>4</string>
 			<key>unique_id</key>
 			<string>S4-0</string>
 			<key>image_name</key>
 			<string>ball0.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{21-25}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>4</string>
 			<key>unique_id</key>
 			<string>S4-1</string>
 			<key>image_name</key>
 			<string>ball1.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{21-25}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>4</string>
 			<key>unique_id</key>
 			<string>S4-2</string>
 			<key>image_name</key>
 			<string>ball2.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{21-25}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>4</string>
 			<key>unique_id</key>
 			<string>S4-3</string>
 			<key>image_name</key>
 			<string>ball3.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{21-25}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>4</string>
 			<key>unique_id</key>
 			<string>S4-4</string>
 			<key>image_name</key>
 			<string>ball4.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{21-25}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>4</string>
 			<key>unique_id</key>
 			<string>S4-5</string>
 			<key>image_name</key>
 			<string>ball5.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{21-25}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>4</string>
 			<key>unique_id</key>
 			<string>S4-6</string>
 			<key>image_name</key>
 			<string>ball6.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{21-25}</string>
 		</dict>
 		<dict>
-			<key>set_id</key>
-			<string>4</string>
 			<key>unique_id</key>
 			<string>S4-7</string>
 			<key>image_name</key>
 			<string>ball7.png</string>
 			<key>points</key>
-			<integer>5</integer>
+			<string>{21-25}</string>
 		</dict>
 	</array>
 </array>

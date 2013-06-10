@@ -24,8 +24,9 @@
 }
 
 - (void)showEndRound:(UIView *)view{
+    CGSize containerSize = CGSizeMake(170, 150);
     UIView *container = [[UIView alloc]init];
-    container.frame = (CGRect){.origin=self.frame.origin,.size={170,150}};
+    container.frame = (CGRect){.origin=self.frame.origin,.size=containerSize};
     container.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
     container.clipsToBounds = NO;
     container.backgroundColor = [UIColor clearColor];
@@ -49,7 +50,7 @@
     [container addSubview:btnRestart];
     
     UILabel *label = [[UILabel alloc]init];
-    label.frame = CGRectMake(container.frame.size.width/2-170/2, 0, 170, 30);
+    label.frame = CGRectMake(container.frame.size.width/2-containerSize.width/2, 0, containerSize.width, 30);
     label.backgroundColor = [UIColor clearColor];
     label.textColor = UICOLOR_FROM_HEX(0xffffff);
     label.text = @"ROUND ENDED";

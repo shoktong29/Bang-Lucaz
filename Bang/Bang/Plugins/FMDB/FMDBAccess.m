@@ -62,12 +62,14 @@
 + (void)createData{
     int minPoint = 5;
     int maxPoint = 8;
+    int setId = 0;
     NSArray *plistData = [PlistHelper getArray:@"ItemData"];
     for (NSArray *set in plistData) {
+        setId++;
         for (NSDictionary *data in set) {
             Item *object = [[Item alloc]init];
             object.uniqueId = [data objectForKey:@"unique_id"];
-            object.setId = [data objectForKey:@"set_id"];
+            object.setId = [NSString stringWithFormat:@"%d",setId];
             object.imageName = [data objectForKey:@"image_name"];
             object.point = minPoint+ arc4random() % (maxPoint-minPoint);
             [FMDBAccess insertData:object];

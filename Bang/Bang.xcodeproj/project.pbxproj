@@ -32,7 +32,6 @@
 		5B692BA1175FA77C009FDCEB /* meme6.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B692B98175FA77C009FDCEB /* meme6.png */; };
 		5B692BA2175FA77C009FDCEB /* meme7.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B692B99175FA77C009FDCEB /* meme7.png */; };
 		5B692BA3175FA77C009FDCEB /* meme8.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B692B9A175FA77C009FDCEB /* meme8.png */; };
-		5B871560174910F100D0DE2C /* InGameCheat.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B87155F174910F100D0DE2C /* InGameCheat.m */; };
 		5BAEEB1D1750B8DB00FE2143 /* GameMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BAEEB1C1750B8DB00FE2143 /* GameMenuVC.m */; };
 		5BBA9200175E3C0100354320 /* buttonBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BBA91FC175E3C0100354320 /* buttonBack.png */; };
 		5BBA9201175E3C0100354320 /* buttonLucky.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BBA91FD175E3C0100354320 /* buttonLucky.png */; };
@@ -81,6 +80,7 @@
 		E7734DC7176042C700A8825E /* EndRoudVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E7734DC6176042C700A8825E /* EndRoudVC.m */; };
 		E7734DCD17607E6F00A8825E /* buttonRight.png in Resources */ = {isa = PBXBuildFile; fileRef = E7734DCC17607E6F00A8825E /* buttonRight.png */; };
 		E7734DD017607ECE00A8825E /* buttonLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = E7734DCF17607ECE00A8825E /* buttonLeft.png */; };
+		E7734DE41765C6B000A8825E /* qCoin.png in Resources */ = {isa = PBXBuildFile; fileRef = E7734DE31765C6B000A8825E /* qCoin.png */; };
 		E78EFADB174C6A2A0071C3A2 /* GameCenterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E78EFADA174C6A2A0071C3A2 /* GameCenterManager.m */; };
 		E78EFADE174C6ACE0071C3A2 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E78EFADD174C6ACE0071C3A2 /* GameKit.framework */; };
 		E78EFAF0174C82B00071C3A2 /* GameCenterLeaderBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = E78EFAEF174C82B00071C3A2 /* GameCenterLeaderBoard.m */; };
@@ -122,8 +122,6 @@
 		5B692B98175FA77C009FDCEB /* meme6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = meme6.png; sourceTree = "<group>"; };
 		5B692B99175FA77C009FDCEB /* meme7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = meme7.png; sourceTree = "<group>"; };
 		5B692B9A175FA77C009FDCEB /* meme8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = meme8.png; sourceTree = "<group>"; };
-		5B87155E174910F100D0DE2C /* InGameCheat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InGameCheat.h; sourceTree = "<group>"; };
-		5B87155F174910F100D0DE2C /* InGameCheat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InGameCheat.m; sourceTree = "<group>"; };
 		5BAEEB14174BC47200FE2143 /* GameElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameElement.h; sourceTree = "<group>"; };
 		5BAEEB1B1750B8DB00FE2143 /* GameMenuVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMenuVC.h; sourceTree = "<group>"; };
 		5BAEEB1C1750B8DB00FE2143 /* GameMenuVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameMenuVC.m; sourceTree = "<group>"; };
@@ -191,6 +189,7 @@
 		E7734DCC17607E6F00A8825E /* buttonRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonRight.png; sourceTree = "<group>"; };
 		E7734DCF17607ECE00A8825E /* buttonLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonLeft.png; sourceTree = "<group>"; };
 		E7734DD1176086C000A8825E /* Protocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Protocols.h; sourceTree = "<group>"; };
+		E7734DE31765C6B000A8825E /* qCoin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qCoin.png; sourceTree = "<group>"; };
 		E78EFAD9174C6A2A0071C3A2 /* GameCenterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCenterManager.h; sourceTree = "<group>"; };
 		E78EFADA174C6A2A0071C3A2 /* GameCenterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCenterManager.m; sourceTree = "<group>"; };
 		E78EFADD174C6ACE0071C3A2 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
@@ -369,8 +368,6 @@
 				E7734DC6176042C700A8825E /* EndRoudVC.m */,
 				E700F1011737AACD00BA5C4D /* InGameMenu.h */,
 				E700F1021737AACD00BA5C4D /* InGameMenu.m */,
-				5B87155E174910F100D0DE2C /* InGameCheat.h */,
-				5B87155F174910F100D0DE2C /* InGameCheat.m */,
 				5BCE22FA17579EFC007742E1 /* CustomClasses */,
 				E7734DD1176086C000A8825E /* Protocols.h */,
 			);
@@ -488,6 +485,7 @@
 				E7734DC31760400400A8825E /* iconRestart@2x.png */,
 				E700F0FB1737A02B00BA5C4D /* iconSettings@2x.png */,
 				E700F0FC1737A02B00BA5C4D /* iconHome@2x.png */,
+				E7734DE31765C6B000A8825E /* qCoin.png */,
 				5B6D30141751A9B60011300A /* Mario */,
 			);
 			path = Resources;
@@ -596,6 +594,7 @@
 				E7734DC41760400400A8825E /* iconRestart@2x.png in Resources */,
 				E7734DCD17607E6F00A8825E /* buttonRight.png in Resources */,
 				E7734DD017607ECE00A8825E /* buttonLeft.png in Resources */,
+				E7734DE41765C6B000A8825E /* qCoin.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,7 +615,6 @@
 				5B484C0F17361C21002A7834 /* PlistHelper.m in Sources */,
 				E700F0EE173785F300BA5C4D /* MyButton.m in Sources */,
 				E700F1031737AACD00BA5C4D /* InGameMenu.m in Sources */,
-				5B871560174910F100D0DE2C /* InGameCheat.m in Sources */,
 				E78EFADB174C6A2A0071C3A2 /* GameCenterManager.m in Sources */,
 				E78EFAF0174C82B00071C3A2 /* GameCenterLeaderBoard.m in Sources */,
 				E78EFAF3174C84990071C3A2 /* GameCenterAchievement.m in Sources */,

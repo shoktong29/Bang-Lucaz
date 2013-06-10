@@ -42,11 +42,15 @@ float const kMIN_SCORE = 60.0f;
     int playerLife;
     int numberOfQuestions;
     int missedQuestions;
+    int correctAnswers;
+    int wrongAnswers;
     BOOL didSelectAnswer;
     GameSettings gameSettings;
     NSURL *soundFileUrl;
     float progressBarWidth;
     MyButton *buttonPause;
+    NSDictionary *data; //user data
+    NSUserDefaults *defaults;
 }
 
 - (void)viewDidLoad{
@@ -55,6 +59,9 @@ float const kMIN_SCORE = 60.0f;
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    defaults = [NSUserDefaults standardUserDefaults];
+    data = [defaults objectForKey:kUSER_DATA];
+    
     if ([self isViewLoaded]) {
         gameSettings = [DataManager sharedInstance].gameSettings;
 //        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"sound_wrong" ofType:@"mp3" inDirectory:@""];
@@ -89,6 +96,8 @@ float const kMIN_SCORE = 60.0f;
     highestComboStreak = 0;
     numberOfQuestions = 0; //do not use this for computing additional score
     missedQuestions = 0;
+    wrongAnswers = 0;
+    correctAnswers = 0;
     didSelectAnswer = YES; //was set to yes because of the counter in generateUI method
     switch (gameSettings.gameMode) {
         case modeTimeAttack:
@@ -162,16 +171,6 @@ float const kMIN_SCORE = 60.0f;
 
 #pragma mark - UI Stuff
 - (void)setFixedUi{
-//    UIButton *btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-//    btn1.backgroundColor = [UIColor clearColor];
-//    btn1.frame = CGRectMake(0, 0, 51, 39);
-//    [btn1 setImage:[UIImage imageNamed:@"iconPause"] forState:UIControlStateNormal];
-//    [btn1 addTarget:self action:@selector(pauseResume) forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem *btnPlayPause = [[UIBarButtonItem alloc] initWithCustomView:btn1];
-//    self.navigationItem.rightBarButtonItem = btnPlayPause;
-//    self.navigationItem.rightBarButtonItem.enabled = NO;
-//    self.navigationItem.hidesBackButton = YES;
-    
     viewSelection = [[UIView alloc]init];
     viewSelection.frame = CGRectMake(43, 205, 235, 72);
     viewSelection.backgroundColor = [UIColor clearColor];//[UIColor colorWithPatternImage:[UIImage imageNamed:@"black-circleBG.png"]];
@@ -182,9 +181,18 @@ float const kMIN_SCORE = 60.0f;
     viewLabelContainer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"topBar.png"]];//UICOLOR_FROM_HEX(0x482982)
     [self.view addSubview:viewLabelContainer];
     
+    UiLabelOutline *labelBest = [[UiLabelOutline alloc]init];
+    labelBest.frame = CGRectMake(10, 5, 140, 25);
+    labelBest.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
+    labelBest.textAlignment = UITextAlignmentLeft;
+    labelBest.textColor = UICOLOR_FROM_HEX(0xe3c332);
+    labelBest.text = [NSString stringWithFormat:@"BEST: %d",[[data objectForKey:kUSER_BEST_SCORE] intValue]];
+    labelBest.backgroundColor = [UIColor clearColor];
+    [viewLabelContainer addSubview:labelBest];
+    
     labelScore = [[UiLabelOutline alloc]init];
-    labelScore.frame = CGRectMake(25, 5, 250, 25);
-    labelScore.font = [UIFont fontWithName:@"Helvetica-Bold" size:25];
+    labelScore.frame = CGRectMake(160-45, 5, 90, 25);
+    labelScore.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
     labelScore.textAlignment = UITextAlignmentCenter;
     labelScore.textColor = UICOLOR_FROM_HEX(0xe3c332);
     labelScore.backgroundColor = [UIColor clearColor];
@@ -256,6 +264,13 @@ float const kMIN_SCORE = 60.0f;
 }
 
 - (void)generateUi{
+    if (!didSelectAnswer) {
+        wrongAnswers++;
+        missedQuestions++;
+        comboStreak = 0;
+    }
+    didSelectAnswer = NO;
+    
     NSMutableArray *listItems = [[NSMutableArray alloc]init];
     NSMutableArray *selectedItems = [[NSMutableArray alloc]init];
     
@@ -281,6 +296,9 @@ float const kMIN_SCORE = 60.0f;
     }
     
     NSMutableArray *temp = [[NSMutableArray alloc]initWithArray:listItems];
+    if (temp.count <=0) {
+        return;
+    }
     int tempCounter = 0;
     int i = 0;
     int xPos = 0;
@@ -326,35 +344,12 @@ float const kMIN_SCORE = 60.0f;
     listItems = nil;
     
     numberOfQuestions++;
-    if (!didSelectAnswer) {
-        missedQuestions++;
-        comboStreak = 0;
-    }
-    didSelectAnswer = NO;
 }
 
 - (void)updateUi:(NSTimer *)tick{
     score = (score > 0)?score:0;
-//    dispatch_group_t group = dispatch_group_create();
-//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//    
-//    dispatch_group_async(group, queue,^{
-//        if (pointsToAdd >0) {
-//            pointsToAdd--;
-//            score++;
-//        }
-//        if (pointsToAdd <0) {
-//            pointsToAdd++;
-//            score--;
-//        }
-//    });
-//
-//    dispatch_group_notify(group, dispatch_get_main_queue(),^{
-//        labelScrore.text = [NSString stringWithFormat:@"%d + %d*%d",score,highestComboStreak,numberOfQuestions];
-//        labelTimer.text = [NSString stringWithFormat:@"%0.0f",(countDownTimer>0)?countDownTimer:0.00f];
-//    });
-    //Animate score label
-//    labelScore.text = [NSString stringWithFormat:@"Score: %d + %d*%d",score,highestComboStreak,numberOfQuestions];
+
+//    labelScore.text = [NSString stringWithFormat:@"Q:%d | CA:%d | WA:%d Score:%d | HC:%d",numberOfQuestions,correctAnswers,wrongAnswers,score,highestComboStreak];
     labelScore.text = [NSString stringWithFormat:@"%d",score];
 
     labelTime.text = [NSString stringWithFormat:@"%0.2f",(countDownTimer>0)?countDownTimer:0.00f];
@@ -423,10 +418,6 @@ float const kMIN_SCORE = 60.0f;
     
     [endRoundMenu hideEndRound];
     endRoundMenu = nil;
-//    dispatch_queue_t myQueue = dispatch_queue_create("myQueue", NULL);
-//    dispatch_async(myQueue, ^{
-//        dispatch_async(dispatch_get_main_queue(), ^{});
-//    });
 }
 
 - (void)generateUiBubble:(id)sender{ // UI that fadesin above the answers when user taps on it.
@@ -488,6 +479,7 @@ float const kMIN_SCORE = 60.0f;
 }
 
 - (void)didSelectCorrectAnswer:(MyButton *)sender{
+    correctAnswers += 1;
     [self generateUiBubble:sender];
     pointsToAdd += sender.point;
     comboStreak++;
@@ -497,6 +489,7 @@ float const kMIN_SCORE = 60.0f;
 }
 
 - (void)didSelectWrongAnswer:(MyButton *)sender{
+    wrongAnswers += 1;
     switch (gameSettings.gameMode) {
         case modeTimeAttack:
             countDownTimer -= 0.0f; //deduct time in countdown
@@ -559,22 +552,6 @@ float const kMIN_SCORE = 60.0f;
         subMenu = nil;
     }
 }
-//
-//#pragma mark - InGameMenu Methods
-//- (void)didPressHome{
-//    [self dismissViewControllerAnimated:YES completion:nil];
-//    if (self.onCompletion) {
-//        self.onCompletion();
-//    }
-//}
-//
-//- (void)didPressContinue{
-//    [self pauseResume:nil];
-//}
-//
-//- (void)didPressRestart{
-//    [self willStartGame];
-//}
 
 #pragma mark - Methods for different mode
 - (void)statePlaying:(NSTimer *)tick{
@@ -691,7 +668,39 @@ float const kMIN_SCORE = 60.0f;
 //            endRoundMenu = nil;
         };
         [endRoundMenu showEndRound:self.view];
+        [self saveData];
     }
+}
+
+#pragma mark - Save
+- (void)saveData{
+    //NOTE: SAVE ONLY AT THE END OF THE GAME
+    
+    //roundscore math
+    int multiplier = [[data objectForKey:kSCORE_MULTIPLIER] intValue];
+    multiplier = (multiplier <= 0)?1:multiplier;
+    float comboBonus = ceilf(highestComboStreak*multiplier);
+    score = score + comboBonus;
+
+    //coins math
+    int totalCoins =[[data objectForKey:kTOTAL_COINS] intValue];
+    totalCoins += correctAnswers + comboBonus;
+    
+    //previous saved data
+    float bestScore = [[data objectForKey:kUSER_BEST_SCORE] floatValue];
+    int bestCombo = [[data objectForKey:kUSER_BEST_COMBO] intValue];
+    int correctAnswer = [[data objectForKey:kUSER_CORRECT_ANSWERS] intValue] + correctAnswers;
+    int wrongAnswer = [[data objectForKey:kUSER_WRONG_ANSWERS] intValue] + wrongAnswers;
+    
+    //compare
+    bestScore = (score > bestScore)?score:bestScore;
+    bestCombo = (highestComboStreak >bestCombo)?highestComboStreak:bestCombo;
+    
+    //save data
+    NSDictionary *toSave = @{kUSER_BEST_SCORE:@(bestScore),kUSER_BEST_COMBO:@(bestCombo),kUSER_CORRECT_ANSWERS:@(correctAnswer),kUSER_WRONG_ANSWERS:@(wrongAnswer),kTOTAL_COINS:@(totalCoins)};
+    [defaults setObject:toSave forKey:kUSER_DATA];
+    [defaults synchronize];
+    NSLog(@"DATA SAVED!!");
 }
 
 

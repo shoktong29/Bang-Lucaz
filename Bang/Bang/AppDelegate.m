@@ -14,10 +14,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
     // Override point for customization after application launch.
+    [[UIApplication sharedApplication]setStatusBarHidden:YES];
     [[GameCenterManager sharedInstance] authenticateLocalUser];
     [FMDBAccess createAndCheckDatabase];
     [FMDBAccess createDBtables];
-    [FMDBAccess createData];    
+    [FMDBAccess createData];
+    NSDictionary *data = [[NSUserDefaults standardUserDefaults]objectForKey:kUSER_DATA];
+    NSLog(@"data: %@",data);
     return YES;
 }
 
