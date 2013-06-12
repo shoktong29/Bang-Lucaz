@@ -8,8 +8,9 @@
 
 #import "FMDBAccess.h"
 #import "PlistHelper.h"
-#define kDB_NAME @"User.db"
+#define kDB_NAME @"Default.db"
 #define kTABLE_ITEM @"Item"
+#define kTABLE_USER @"UserData"
 
 @implementation FMDBAccess
 
@@ -41,6 +42,10 @@
     BOOL success;
     NSString *query = [NSString stringWithFormat:@"CREATE TABLE %@(unique_id TEXT PRIMARY KEY,set_id TEXT, image_name TEXT, point_value INTEGER);",kTABLE_ITEM];
     success = [db executeUpdate:query];
+    
+    query = [NSString stringWithFormat:@"CREATE TABLE %@(unique_id PRIMARY KEY UNIQUE, %@ REAL, %@ REAL, %@ REAL, %@ INTEGER, %@ INTEGER, %@ INTEGER, %@ INTEGER, %@ INTEGER);",kTABLE_USER,kUSER_BEST_SCORE_NORMAL,kUSER_BEST_SCORE_SURVIVAL,kUSER_BEST_SCORE_LUCKY,kUSER_BEST_COMBO_NORMAL,kUSER_BEST_COMBO_SURVIVAL,kUSER_BEST_COMBO_LUCKY,kSCORE_MULTIPLIER,kTOTAL_COINS];
+    success = [db executeUpdate:query];
+
     [db close];
     
     (success)?NSLog(@"Success creating table!"):NSLog(@"Failed creating table!");//Existing table?
@@ -55,6 +60,17 @@
     BOOL success = [db executeUpdate:query];
     [db close];
     
+    (success)?NSLog(@"Success!"):NSLog(@"Failed!");
+    return success;
+}
+
++ (BOOL)saveUserData:(UserData )data{
+    FMDatabase *db = [FMDatabase databaseWithPath:[FMDBAccess getDatabasePath]];
+    [db open];
+    NSString *query;
+    query =[NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ VALUES(%d,%0.2f,%0.2f,%0.2f,%d,%d,%d,%d,%d)",kTABLE_USER,data.uniqueId,data.bestNormalScore,data.bestSurvivalScore,data.bestLuckyScore,data.bestNormalCombo,data.bestSurvivalCombo,data.bestLuckyCombo,data.multiplier,data.coins];
+    BOOL success = [db executeUpdate:query];
+    [db close];
     (success)?NSLog(@"Success!"):NSLog(@"Failed!");
     return success;
 }
@@ -110,6 +126,29 @@
     }
     [db close];
     return temp;
+}
+
+
++ (UserData)loadUserData{
+    UserData userData = UserDataMakeDefault();
+    FMDatabase *db = [FMDatabase databaseWithPath:[FMDBAccess getDatabasePath]];
+    
+    [db open];
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM %@ LIMIT 1",kTABLE_USER];
+    FMResultSet *results = [db executeQuery:query];
+    while([results next]){
+        userData.uniqueId = [results intForColumn:@"unique_id"];
+        userData.bestNormalScore = [results longForColumn:kUSER_BEST_SCORE_NORMAL];
+        userData.bestNormalCombo = [results intForColumn:kUSER_BEST_COMBO_NORMAL];
+        userData.bestSurvivalScore = [results longForColumn:kUSER_BEST_SCORE_SURVIVAL];
+        userData.bestSurvivalCombo = [results intForColumn:kUSER_BEST_COMBO_SURVIVAL];
+        userData.bestLuckyScore = [results longForColumn:kUSER_BEST_SCORE_LUCKY];
+        userData.bestLuckyCombo = [results intForColumn:kUSER_BEST_COMBO_LUCKY];
+        userData.multiplier = [results intForColumn:kSCORE_MULTIPLIER];
+        userData.coins = [results intForColumn:kTOTAL_COINS];
+    }
+    [db close];
+    return userData;
 }
 
 

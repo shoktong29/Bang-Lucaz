@@ -19,8 +19,8 @@
     [FMDBAccess createAndCheckDatabase];
     [FMDBAccess createDBtables];
     [FMDBAccess createData];
-    NSDictionary *data = [[NSUserDefaults standardUserDefaults]objectForKey:kUSER_DATA];
-    NSLog(@"data: %@",data);
+//    NSDictionary *data = [[NSUserDefaults standardUserDefaults]objectForKey:kUSER_DATA];
+//    NSLog(@"data: %@",data);
     return YES;
 }
 

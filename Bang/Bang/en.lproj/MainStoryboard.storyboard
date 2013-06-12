@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="11G63" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="unZ-hN-n8x">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="unZ-hN-n8x">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
     </dependencies>
@@ -52,7 +52,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yYD-V6-DS8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-303" y="-346"/>
+            <point key="canvasLocation" x="-464" y="-353"/>
         </scene>
         <!--Select SetVC-->
         <scene sceneID="tVW-7h-YBp">
@@ -172,6 +172,62 @@
             </objects>
             <point key="canvasLocation" x="80" y="-346"/>
         </scene>
+        <!--LeaderboardVC-->
+        <scene sceneID="yng-L1-TUC">
+            <objects>
+                <viewController id="v8j-hx-nu2" customClass="LeaderboardVC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iud-FX-I5e">
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="black-circleBG.png" id="cyU-J4-zkA">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="a4B-0x-yka">
+                                <rect key="frame" x="114" y="445" width="93" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" backgroundImage="buttonBack.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="goDismiss:" destination="v8j-hx-nu2" eventType="touchUpInside" id="2Vc-4T-suU"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="xSG-5k-FWI">
+                                <rect key="frame" x="20" y="56" width="280" height="381"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" highlighted="YES" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" momentary="YES" id="3Cf-iA-Xe9">
+                                <rect key="frame" x="20" y="29" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Normal" width="92.666666666666671"/>
+                                    <segment title="Survival"/>
+                                    <segment title="Lucky"/>
+                                </segments>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <connections>
+                                    <action selector="reloadData:" destination="v8j-hx-nu2" eventType="valueChanged" id="imb-fQ-e8p"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="tvLeaderboard" destination="xSG-5k-FWI" id="6Gw-Qw-WdJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WyG-wD-aNJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="80" y="311"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="1jG-fe-NCM">
             <objects>
@@ -225,26 +281,6 @@
             </objects>
             <point key="canvasLocation" x="469" y="-340"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="lLf-3r-4km">
-            <objects>
-                <viewController id="UUi-0m-vlE" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="fe1-RD-3aZ">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="black-circleBG.png" id="7Ib-hr-Z2W">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4su-cy-nc0" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="804" y="-340"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="y14-b9-4YN">
             <objects>
@@ -271,6 +307,41 @@
         <image name="buttonRight.png" width="120" height="100"/>
         <image name="buttonSurvial.png" width="198" height="41"/>
     </resources>
+    <classes>
+        <class className="GameMenuVC" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GameMenuVC.h"/>
+            <relationships>
+                <relationship kind="action" name="goMultiplayer:"/>
+                <relationship kind="outlet" name="backgroundImageView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="LeaderboardVC" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LeaderboardVC.h"/>
+            <relationships>
+                <relationship kind="action" name="goDismiss:"/>
+                <relationship kind="action" name="reloadData:"/>
+                <relationship kind="outlet" name="tvLeaderboard" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="SelectSetVC" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SelectSetVC.h"/>
+            <relationships>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+            </relationships>
+        </class>
+        <class className="ViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="didPressPowerup:"/>
+                <relationship kind="action" name="pauseResume:"/>
+                <relationship kind="outlet" name="cloudsImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="labelGetSetGo" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="viewSelection" candidateClass="UIView"/>
+                <relationship kind="outlet" name="viewStage" candidateClass="UIView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

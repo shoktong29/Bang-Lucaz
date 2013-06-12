@@ -10,6 +10,7 @@
 #import "FMDatabase.h"
 #import "FMResultSet.h"
 #import "Item.h"
+#import "GameElement.h"
 
 @interface FMDBAccess : NSObject
 
@@ -18,6 +19,8 @@
 + (BOOL) createDBtables;
 + (void)createData;
 + (BOOL)insertData:(Item *)data;
++ (BOOL)saveUserData:(UserData )data;
++ (UserData)loadUserData;
 + (NSMutableArray *) getSetIds;
 + (NSMutableArray *) getListItemWithSetId:(int)s;
 

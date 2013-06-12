@@ -34,23 +34,28 @@ float const kMIN_SCORE = 60.0f;
     float countDownTimer;
     float timeLimit;
     float speed;
-    int score;
-    int pointsToAdd;
+    signed int score;
+    signed int pointsToAdd;
     float counter;
-    int comboStreak;
-    int highestComboStreak;
-    int playerLife;
-    int numberOfQuestions;
-    int missedQuestions;
-    int correctAnswers;
-    int wrongAnswers;
+    signed int comboStreak;
+    signed int highestComboStreak;
+    signed int playerLife;
+    signed int numberOfQuestions;
+    signed int missedQuestions;
+    signed int correctAnswers;
+    signed int wrongAnswers;
     BOOL didSelectAnswer;
     GameSettings gameSettings;
     NSURL *soundFileUrl;
     float progressBarWidth;
     MyButton *buttonPause;
-    NSDictionary *data; //user data
-    NSUserDefaults *defaults;
+//    NSDictionary *data; //user data
+//    NSUserDefaults *defaults;
+    float uiTickCounter;
+    GameResult results;
+    float bestScoreKey;
+    int bestComboKey;
+    UserData userData;
 }
 
 - (void)viewDidLoad{
@@ -59,18 +64,16 @@ float const kMIN_SCORE = 60.0f;
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    defaults = [NSUserDefaults standardUserDefaults];
-    data = [defaults objectForKey:kUSER_DATA];
     
     if ([self isViewLoaded]) {
         gameSettings = [DataManager sharedInstance].gameSettings;
 //        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"sound_wrong" ofType:@"mp3" inDirectory:@""];
 //        soundFileUrl = [NSURL fileURLWithPath:filePath isDirectory:NO];
-        [self setFixedUi];
         timerMain = [NSTimer timerWithTimeInterval:kTIME_INTERVAL target:self selector:@selector(runLoop:) userInfo:nil repeats:YES];
         [[NSRunLoop mainRunLoop]addTimer:timerMain forMode:NSRunLoopCommonModes];
         [self createObjects];
         [self willStartGame];
+        [self setFixedUi];
     }
 }
 
@@ -88,6 +91,7 @@ float const kMIN_SCORE = 60.0f;
 }
 
 - (void)setDefaultValues{
+    userData = [FMDBAccess loadUserData];
     timeLimit = kTIME_LIMIT; //only affects normal mode but is use in all mode
     score = 0;
     pointsToAdd = 0;
@@ -99,21 +103,29 @@ float const kMIN_SCORE = 60.0f;
     wrongAnswers = 0;
     correctAnswers = 0;
     didSelectAnswer = YES; //was set to yes because of the counter in generateUI method
+    uiTickCounter = 0;
+
     switch (gameSettings.gameMode) {
         case modeTimeAttack:
             countDownTimer = timeLimit;
             speed = 0.7f;
             playerLife = 0;
+            bestScoreKey = userData.bestLuckyScore;
+            bestComboKey = userData.bestLuckyCombo;
             break;
         case modeSurvial:
             countDownTimer = 0;
             speed = 1.2f;
             playerLife = 1;
+            bestScoreKey = userData.bestSurvivalScore;
+            bestComboKey = userData.bestSurvivalCombo;
             break;
         case modeNormal:
             countDownTimer = timeLimit;
             speed = 0.0f;
             playerLife = 0;
+            bestScoreKey = userData.bestNormalScore;
+            bestComboKey = userData.bestNormalCombo;
             break;
         case modeTutorial:
             countDownTimer = 0;
@@ -181,18 +193,18 @@ float const kMIN_SCORE = 60.0f;
     viewLabelContainer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"topBar.png"]];//UICOLOR_FROM_HEX(0x482982)
     [self.view addSubview:viewLabelContainer];
     
-    UiLabelOutline *labelBest = [[UiLabelOutline alloc]init];
+    labelBest = [[UiLabelOutline alloc]init];
     labelBest.frame = CGRectMake(10, 5, 140, 25);
-    labelBest.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
+    labelBest.font = [UIFont fontWithName:@"Helvetica" size:15];
     labelBest.textAlignment = UITextAlignmentLeft;
-    labelBest.textColor = UICOLOR_FROM_HEX(0xe3c332);
-    labelBest.text = [NSString stringWithFormat:@"BEST: %d",[[data objectForKey:kUSER_BEST_SCORE] intValue]];
+    labelBest.textColor = UICOLOR_FROM_HEX(0x868686);
+    labelBest.text = [NSString stringWithFormat:@"BEST: %0.0f",bestScoreKey];
     labelBest.backgroundColor = [UIColor clearColor];
     [viewLabelContainer addSubview:labelBest];
     
     labelScore = [[UiLabelOutline alloc]init];
     labelScore.frame = CGRectMake(160-45, 5, 90, 25);
-    labelScore.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
+    labelScore.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
     labelScore.textAlignment = UITextAlignmentCenter;
     labelScore.textColor = UICOLOR_FROM_HEX(0xe3c332);
     labelScore.backgroundColor = [UIColor clearColor];
@@ -241,21 +253,26 @@ float const kMIN_SCORE = 60.0f;
             break;
         case modeTimeAttack:
             labelTime = [[UiLabelOutline alloc]init];
-            labelTime.frame = CGRectMake(10, 25, 60, 25);
+            labelTime.frame = CGRectMake(10, 24, 60, 25);
             labelTime.textAlignment = UITextAlignmentLeft;
+            labelTime.textColor = UICOLOR_FROM_HEX(0x868686);
             labelTime.backgroundColor = [UIColor clearColor];
             [viewLabelContainer addSubview:labelTime];
             
             viewProgressBarContainer = [[UIView alloc]init];
             viewProgressBarContainer.frame = CGRectMake(labelTime.frame.origin.x+labelTime.frame.size.width, 32, 200, 10);
             viewProgressBarContainer.layer.borderWidth = 2.0f;
-            viewProgressBarContainer.layer.borderColor = [UIColor grayColor].CGColor;
+            //            viewProgressBarContainer.backgroundColor = UICOLOR_FROM_HEX(0x868686);
+            color = UICOLOR_FROM_HEX(0xc2c2c2);
+            viewProgressBarContainer.layer.borderColor = color.CGColor;//[UIColor grayColor].CGColor;
             
             viewProgressBar = [[UIImageView alloc] init];
-            viewProgressBar.image = [UIImage imageNamed:@"progressBarFill.png"];
+            viewProgressBar.image = [Helper grayscaleImage:[UIImage imageNamed:@"progressBarFill.png"] color:[UIColor darkGrayColor]];
             viewProgressBar.frame = viewProgressBarContainer.frame;
             [viewLabelContainer addSubview:viewProgressBar];
             [viewLabelContainer addSubview:viewProgressBarContainer];
+            
+            progressBarWidth = viewProgressBar.frame.size.width;
             break;
         default:
             break;
@@ -347,23 +364,28 @@ float const kMIN_SCORE = 60.0f;
 }
 
 - (void)updateUi:(NSTimer *)tick{
+    uiTickCounter += tick.timeInterval;
     score = (score > 0)?score:0;
 
-//    labelScore.text = [NSString stringWithFormat:@"Q:%d | CA:%d | WA:%d Score:%d | HC:%d",numberOfQuestions,correctAnswers,wrongAnswers,score,highestComboStreak];
-    labelScore.text = [NSString stringWithFormat:@"%d",score];
-
-    labelTime.text = [NSString stringWithFormat:@"%0.2f",(countDownTimer>0)?countDownTimer:0.00f];
-    if (pointsToAdd >0) {
-        pointsToAdd--;
-        score++;
-    }
-    if (pointsToAdd <0 && score>=0) {
-        pointsToAdd++;
-        score--;
-        if (score <= 0) {
-            pointsToAdd = 0;
+    if(uiTickCounter > 0.05f){
+        labelScore.text = [NSString stringWithFormat:@"%d",score];
+        
+        if (pointsToAdd >0) {
+            pointsToAdd--;
+            score++;
         }
+        if (pointsToAdd <0 && score>=0) {
+            pointsToAdd++;
+            score--;
+            if (score <= 0) {
+                pointsToAdd = 0;
+            }
+        }
+        uiTickCounter = 0;
     }
+    //    labelScore.text = [NSString stringWithFormat:@"Q:%d | CA:%d | WA:%d Score:%d | HC:%d",numberOfQuestions,correctAnswers,wrongAnswers,score,highestComboStreak];
+    labelTime.text = [NSString stringWithFormat:@"%0.2f",(countDownTimer>0)?countDownTimer:0.00f];
+    labelBest.text = [NSString stringWithFormat:@"BEST: %0.0f",bestScoreKey];
     
     CGRect temp;
     float width;
@@ -403,6 +425,7 @@ float const kMIN_SCORE = 60.0f;
         default:
             break;
     }
+
 }
 
 - (void)cleanup{
@@ -650,10 +673,11 @@ float const kMIN_SCORE = 60.0f;
 
 - (void)stateEnd:(NSTimer *)tick{
     if (!endRoundMenu) {
+        [self saveData];
         scrollView.hidden = YES;
         endRoundMenu = [[EndRoudVC alloc]init];
-        endRoundMenu.frame = scrollView.frame;
-        endRoundMenu.center = scrollView.center;
+        [endRoundMenu setMyFrame: scrollView.frame];
+        endRoundMenu.results = results;
         __weak typeof(self) weakSelf = self;
         endRoundMenu.onPressRestart = ^{
             [weakSelf willStartGame];
@@ -668,7 +692,6 @@ float const kMIN_SCORE = 60.0f;
 //            endRoundMenu = nil;
         };
         [endRoundMenu showEndRound:self.view];
-        [self saveData];
     }
 }
 
@@ -676,31 +699,78 @@ float const kMIN_SCORE = 60.0f;
 - (void)saveData{
     //NOTE: SAVE ONLY AT THE END OF THE GAME
     
+    
     //roundscore math
-    int multiplier = [[data objectForKey:kSCORE_MULTIPLIER] intValue];
+    int multiplier = userData.multiplier;
     multiplier = (multiplier <= 0)?1:multiplier;
     float comboBonus = ceilf(highestComboStreak*multiplier);
-    score = score + comboBonus;
+    //float roundScore = score + pointsToAdd; //no added bonus yet
+    pointsToAdd += comboBonus;
+    float totalRoundScore = score + pointsToAdd;
+    totalRoundScore = (totalRoundScore <0)?0:totalRoundScore; //ensure non negative value
 
     //coins math
-    int totalCoins =[[data objectForKey:kTOTAL_COINS] intValue];
-    totalCoins += correctAnswers + comboBonus;
+    int totalCoins = userData.coins;
+    int coinReward = correctAnswers + comboBonus;
+    totalCoins += coinReward;
     
     //previous saved data
-    float bestScore = [[data objectForKey:kUSER_BEST_SCORE] floatValue];
-    int bestCombo = [[data objectForKey:kUSER_BEST_COMBO] intValue];
-    int correctAnswer = [[data objectForKey:kUSER_CORRECT_ANSWERS] intValue] + correctAnswers;
-    int wrongAnswer = [[data objectForKey:kUSER_WRONG_ANSWERS] intValue] + wrongAnswers;
+    float bestScore;
+    int bestCombo;
+    switch (gameSettings.gameMode) {
+        case modeTimeAttack:
+            bestScore = userData.bestLuckyScore;
+            bestCombo = userData.bestLuckyCombo;
+            break;
+        case modeSurvial:
+            bestScore = userData.bestSurvivalScore;
+            bestCombo = userData.bestSurvivalCombo;
+            break;
+        case modeNormal:
+            bestScore = userData.bestNormalScore;
+            bestCombo = userData.bestNormalCombo;
+            break;
+        case modeTutorial:
+            break;
+        default:
+            break;
+    }
+//    int correctAnswer = [[data objectForKey:kUSER_CORRECT_ANSWERS] intValue] + correctAnswers;
+//    int wrongAnswer = [[data objectForKey:kUSER_WRONG_ANSWERS] intValue] + wrongAnswers;
     
     //compare
-    bestScore = (score > bestScore)?score:bestScore;
+    bestScore = (totalRoundScore > bestScore)?totalRoundScore:bestScore;
     bestCombo = (highestComboStreak >bestCombo)?highestComboStreak:bestCombo;
     
-    //save data
-    NSDictionary *toSave = @{kUSER_BEST_SCORE:@(bestScore),kUSER_BEST_COMBO:@(bestCombo),kUSER_CORRECT_ANSWERS:@(correctAnswer),kUSER_WRONG_ANSWERS:@(wrongAnswer),kTOTAL_COINS:@(totalCoins)};
-    [defaults setObject:toSave forKey:kUSER_DATA];
-    [defaults synchronize];
-    NSLog(@"DATA SAVED!!");
+        //save data
+    switch (gameSettings.gameMode) {
+        case modeTimeAttack:
+            userData.bestLuckyScore = bestScore;
+            userData.bestLuckyCombo = bestCombo;
+            userData.coins += coinReward;
+            break;
+        case modeSurvial:
+            userData.bestSurvivalScore = bestScore;
+            userData.bestSurvivalCombo = bestCombo;
+            userData.coins += coinReward;
+            break;
+        case modeNormal:
+            userData.bestNormalScore = bestScore;
+            userData.bestNormalCombo = bestCombo;
+            userData.coins += coinReward;
+            break;
+        case modeTutorial:
+            break;
+        default:
+            break;
+    }
+    [FMDBAccess saveUserData:userData];
+    
+    results.roundScore = totalRoundScore;
+    results.bestRoundCombo = highestComboStreak;
+    results.comboBonus = comboBonus;
+    results.multiplier = multiplier;
+    results.coins = coinReward;
 }
 
 

@@ -23,6 +23,7 @@
     UiLabelOutline *labelTime;
     UiLabelOutline *labelLife;
     UiLabelOutline *labelScore;
+    UiLabelOutline *labelBest;
     UIImageView *viewProgressBar;
     
 }
