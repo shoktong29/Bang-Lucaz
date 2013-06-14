@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "FMDBAccess.h"
 #import "GameCenterManager.h"
+#import "SoundEngine.h"
 
 @implementation AppDelegate
 
@@ -19,6 +20,7 @@
     [FMDBAccess createAndCheckDatabase];
     [FMDBAccess createDBtables];
     [FMDBAccess createData];
+    [SoundEngine sharedEngine];
 //    NSDictionary *data = [[NSUserDefaults standardUserDefaults]objectForKey:kUSER_DATA];
 //    NSLog(@"data: %@",data);
     return YES;

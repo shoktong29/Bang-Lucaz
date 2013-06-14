@@ -14,7 +14,7 @@
 #import "FMDBAccess.h"
 #import "PlistHelper.h"
 #import "GameCenterManager.h"
-#import "AudioManager.h"
+#import "SoundEngine.h"
 #import "DataManager.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Helper.h"
@@ -67,8 +67,6 @@ float const kMIN_SCORE = 60.0f;
     
     if ([self isViewLoaded]) {
         gameSettings = [DataManager sharedInstance].gameSettings;
-//        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"sound_wrong" ofType:@"mp3" inDirectory:@""];
-//        soundFileUrl = [NSURL fileURLWithPath:filePath isDirectory:NO];
         timerMain = [NSTimer timerWithTimeInterval:kTIME_INTERVAL target:self selector:@selector(runLoop:) userInfo:nil repeats:YES];
         [[NSRunLoop mainRunLoop]addTimer:timerMain forMode:NSRunLoopCommonModes];
         [self createObjects];
@@ -544,7 +542,7 @@ float const kMIN_SCORE = 60.0f;
             break;
     }
     comboStreak = 0;
-    [AudioManager playSound:soundFileUrl];
+    [[SoundEngine sharedEngine]playLoopEffect:@"sound_wrong.mp3" withLoop:0];
     pointsToAdd += -sender.point;
 }
 
