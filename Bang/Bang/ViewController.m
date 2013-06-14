@@ -189,7 +189,7 @@ float const kMIN_SCORE = 60.0f;
     [scrollView addSubview:viewSelection];
     
     UIView *viewLabelContainer = [[UIView alloc]init];
-    viewLabelContainer.frame = CGRectMake(0, 0, 320, 45);
+    viewLabelContainer.frame = CGRectMake(0, -50, 320, 45);
     viewLabelContainer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"topBar.png"]];//UICOLOR_FROM_HEX(0x482982)
     [self.view addSubview:viewLabelContainer];
     
@@ -216,6 +216,10 @@ float const kMIN_SCORE = 60.0f;
     buttonPause.layer.borderColor = [UIColor clearColor].CGColor;
     [buttonPause addTarget:self action:@selector(pauseResume:) forControlEvents:UIControlEventTouchDown];
     [viewLabelContainer addSubview:buttonPause];
+    
+    [UIView animateWithDuration:0.5f animations:^{
+        viewLabelContainer.frame = CGRectMake(0, 0, 320, 45);
+    }];
     
     UIView *viewProgressBarContainer;
     UIColor *color;
@@ -436,9 +440,10 @@ float const kMIN_SCORE = 60.0f;
     [stageActiveButton removeFromSuperview];
     stageActiveButton = nil;
     
-    [subMenu hideMenu];
-    subMenu = nil;
-    
+//    [subMenu hideMenu:^{
+//        subMenu = nil;
+//    }];
+//    
     [endRoundMenu hideEndRound];
     endRoundMenu = nil;
 }
@@ -571,8 +576,9 @@ float const kMIN_SCORE = 60.0f;
     else if(_gamestate == statePause){
         scrollView.hidden = NO;
         [self changeState:_gamePreviousState];
-        [subMenu hideMenu];
-        subMenu = nil;
+        [subMenu hideMenu:^{
+            subMenu = nil;
+        }];
     }
 }
 
@@ -673,32 +679,32 @@ float const kMIN_SCORE = 60.0f;
 
 - (void)stateEnd:(NSTimer *)tick{
     if (!endRoundMenu) {
-        [self saveData];
-        scrollView.hidden = YES;
-        endRoundMenu = [[EndRoudVC alloc]init];
-        [endRoundMenu setMyFrame: scrollView.frame];
-        endRoundMenu.results = results;
-        __weak typeof(self) weakSelf = self;
-        endRoundMenu.onPressRestart = ^{
-            [weakSelf willStartGame];
-        };
-        
-        endRoundMenu.onPressHome = ^{
-            [weakSelf dismissViewControllerAnimated:YES completion:nil];
-        };
-        
-        endRoundMenu.onPressContinue = ^{
-            scrollView.hidden = NO;
-//            endRoundMenu = nil;
-        };
-        [endRoundMenu showEndRound:self.view];
+        [self saveData:^{
+            scrollView.hidden = YES;
+            endRoundMenu = [[EndRoudVC alloc]init];
+            [endRoundMenu setMyFrame: scrollView.frame];
+            endRoundMenu.results = results;
+            __weak typeof(self) weakSelf = self;
+            endRoundMenu.onPressRestart = ^{
+                [weakSelf willStartGame];
+                //FIND A WAY TO NIL ENDROUND HERE
+            };
+            
+            endRoundMenu.onPressHome = ^{
+                [weakSelf dismissViewControllerAnimated:YES completion:nil];
+            };
+            
+            endRoundMenu.onPressContinue = ^{
+                scrollView.hidden = NO;
+            };
+            [endRoundMenu showEndRound:self.view];
+        }];
     }
 }
 
 #pragma mark - Save
-- (void)saveData{
+- (void)saveData:(void(^)(void))process{
     //NOTE: SAVE ONLY AT THE END OF THE GAME
-    
     
     //roundscore math
     int multiplier = userData.multiplier;
@@ -764,13 +770,14 @@ float const kMIN_SCORE = 60.0f;
         default:
             break;
     }
-    [FMDBAccess saveUserData:userData];
     
     results.roundScore = totalRoundScore;
     results.bestRoundCombo = highestComboStreak;
     results.comboBonus = comboBonus;
     results.multiplier = multiplier;
     results.coins = coinReward;
+    [FMDBAccess saveUserData:userData];
+    process();
 }
 
 

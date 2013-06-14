@@ -14,6 +14,7 @@
 
 @implementation EndRoudVC{
     CGRect tempFrame;
+    CGRect defaultFrame;
 }
 
 - (id)init{
@@ -27,7 +28,8 @@
 
 - (void)setMyFrame:(CGRect )frame{
     tempFrame = frame;
-    self.frame = (CGRect){.origin={tempFrame.origin.x,600}, .size=tempFrame.size};
+    defaultFrame = (CGRect){.origin={tempFrame.origin.x,600}, .size=tempFrame.size};
+    self.frame = defaultFrame;
 }
 
 - (void)showEndRound:(UIView *)view{
@@ -107,11 +109,9 @@
 //    CGAffineTransform trans = CGAffineTransformScale(self.transform, 0.01, 0.01);
 //    self.transform = trans;
     [UIView animateWithDuration:0.5f animations:^{
-//        self.transform = CGAffineTransformScale(trans, 110, 110);
         self.frame = tempFrame;
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:0.2f animations:^{
-//            self.transform = CGAffineTransformScale(trans, 100, 100);
         } completion:^(BOOL finished) {
             
         }];
@@ -119,30 +119,31 @@
 }
 
 - (void)hideEndRound{
-    [self removeFromSuperview];
+    [UIView animateWithDuration:0.5f animations:^{
+        self.frame = defaultFrame;
+    } completion:^(BOOL finished) {
+        [self removeFromSuperview];
+    }];
 }
 
 - (void)goHome{
-    if (self.onPressHome) {
+    if (self.onPressHome) {        
+        [self hideEndRound];
         self.onPressHome();
     }
 }
 
 - (void)goContinue{
     if (self.onPressContinue) {
-        [UIView animateWithDuration:0.3f animations:^{
-            self.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
-        } completion:^(BOOL finished) {
-            [self hideEndRound];
-//            self.onPressContinue();
-                self.onPressRestart();
-        }];
+        [self hideEndRound];
+        self.onPressRestart();
     }
 }
 
 - (void)goRestart{
     if (self.onPressRestart) {
-        self.onPressRestart();
-    }
+            [self hideEndRound];
+            self.onPressRestart();
+    } 
 }
 @end

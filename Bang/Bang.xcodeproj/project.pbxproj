@@ -401,8 +401,8 @@
 			isa = PBXGroup;
 			children = (
 				5BAEEB14174BC47200FE2143 /* GameElement.h */,
-				5BAEEB1C1750B8DB00FE2143 /* GameMenuVC.m */,
 				5BAEEB1B1750B8DB00FE2143 /* GameMenuVC.h */,
+				5BAEEB1C1750B8DB00FE2143 /* GameMenuVC.m */,
 				5BD9E2791753B75000AECDE2 /* SelectSetVC.h */,
 				5BD9E27A1753B75000AECDE2 /* SelectSetVC.m */,
 				E773116C17326604008E8EF1 /* ViewController.h */,

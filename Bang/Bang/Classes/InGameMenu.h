@@ -15,6 +15,6 @@
 @property(nonatomic, strong) void(^onPressHome)(void);
 @property(nonatomic, strong) void(^onPressContinue)(void);
 - (void)showMenu:(UIView *)view;
-- (void)hideMenu;
+- (void)hideMenu:(void(^)(void))process;
 
 @end

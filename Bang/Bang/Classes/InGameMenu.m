@@ -70,39 +70,37 @@
     }];
 }
 
-- (void)hideMenu{
-    [self removeFromSuperview];
+- (void)hideMenu:(void(^)(void))process{
+    CGAffineTransform trans = CGAffineTransformScale(self.transform, 0.01, 0.01);
+    [UIView animateWithDuration:0.3f animations:^{
+        self.transform = CGAffineTransformScale(trans, 0.01, 0.01);
+    } completion:^(BOOL finished) {
+        [self removeFromSuperview];
+        process();
+    }];
 }
 
 - (void)goHome{
     if (self.onPressHome) {
-        self.onPressHome();
+        [self hideMenu:^{
+            self.onPressHome();
+        }];
     }
 }
 
 - (void)goContinue{
     if (self.onPressContinue) {
-        [UIView animateWithDuration:0.4f animations:^{
-            self.transform = CGAffineTransformMakeScale(0.0f, 0.0f);
-        } completion:^(BOOL finished) {
-            [self hideMenu];
+        [self hideMenu:^{
             self.onPressContinue();
-        }];
+        }];        
     }
 }
 - (void)goRestart{
     if (self.onPressRestart) {
-        self.onPressRestart();
+        [self hideMenu:^{
+            self.onPressRestart();
+        }];          
     }
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end
