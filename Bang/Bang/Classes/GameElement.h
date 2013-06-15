@@ -23,7 +23,7 @@ typedef enum{
 
 struct GameSettings {
     GameMode gameMode;
-    int setId;
+    int setId; //reverted back from nsstring to int because of during animation the value changes
 };
 typedef struct GameSettings GameSettings;
 

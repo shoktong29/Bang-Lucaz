@@ -15,5 +15,7 @@ green:(((NSUInteger) (x & 0x00ff00) >> 8) / 255.) \
 blue:(((NSUInteger) (x & 0x0000ff)) / 255.) \
 alpha:1.0];
 
+#define AVERAGE(x,y) (x+y)/2
+
 
 #endif

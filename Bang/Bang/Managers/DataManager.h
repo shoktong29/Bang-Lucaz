@@ -9,6 +9,6 @@
 #import "GameElement.h"
 @interface DataManager : NSObject
 
-@property (nonatomic,readwrite) GameSettings gameSettings;
+@property (nonatomic,assign) GameSettings gameSettings;
 + (DataManager *)sharedInstance;
 @end

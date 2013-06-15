@@ -13,4 +13,6 @@
 @property (nonatomic) NSString *uniqueId;
 @property (nonatomic, strong) NSString *imageName;
 @property (nonatomic) int point;
+@property (nonatomic) int price;
+@property (nonatomic) BOOL isAvailable;
 @end

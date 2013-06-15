@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SelectSetVC : UIViewController <UIScrollViewDelegate>
+@interface SelectSetVC : UIViewController <UIScrollViewDelegate,UIAlertViewDelegate>
 
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 

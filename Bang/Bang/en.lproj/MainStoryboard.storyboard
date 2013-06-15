@@ -78,7 +78,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="fSs-pX-NUZ" kind="modal" identifier="showViewController" customClass="Fade" modalTransitionStyle="crossDissolve" id="YLx-CM-jpy"/>
+                                    <action selector="goGameScene:" destination="qaY-Wf-XHs" eventType="touchUpInside" id="eAM-Wt-gQy"/>
                                 </connections>
                             </button>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oXL-WB-9lx">
@@ -93,7 +93,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="fSs-pX-NUZ" kind="modal" identifier="showViewController" modalTransitionStyle="crossDissolve" id="qjm-Ah-5d0"/>
+                                    <action selector="goGameScene:" destination="qaY-Wf-XHs" eventType="touchUpInside" id="oXS-5T-X0y"/>
                                 </connections>
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="8DG-Wj-fwm">
@@ -112,7 +112,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="fSs-pX-NUZ" kind="modal" identifier="showViewController" modalTransitionStyle="crossDissolve" id="h0Y-gJ-T9Z"/>
+                                    <action selector="goGameScene:" destination="qaY-Wf-XHs" eventType="touchUpInside" id="AyR-YS-WCv"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="V4i-fD-cHL">
@@ -166,6 +166,7 @@
                     <navigationItem key="navigationItem" id="vXy-zV-oaL"/>
                     <connections>
                         <outlet property="scrollView" destination="8DG-Wj-fwm" id="Swt-eK-xfB"/>
+                        <segue destination="fSs-pX-NUZ" kind="modal" identifier="showViewController" modalTransitionStyle="crossDissolve" id="U9X-IJ-ctL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HUY-ow-hPu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -326,6 +327,10 @@
         <class className="SelectSetVC" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SelectSetVC.h"/>
             <relationships>
+                <relationship kind="action" name="goGameMenuVC:"/>
+                <relationship kind="action" name="goGameScene:"/>
+                <relationship kind="action" name="goNext:"/>
+                <relationship kind="action" name="goPrevious:"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
             </relationships>
         </class>
@@ -347,7 +352,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="h0Y-gJ-T9Z"/>
-    </inferredMetricsTieBreakers>
 </document>

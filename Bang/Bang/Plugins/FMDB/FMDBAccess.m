@@ -40,7 +40,7 @@
     
     [db open];
     BOOL success;
-    NSString *query = [NSString stringWithFormat:@"CREATE TABLE %@(unique_id TEXT PRIMARY KEY,set_id TEXT, image_name TEXT, point_value INTEGER);",kTABLE_ITEM];
+    NSString *query = [NSString stringWithFormat:@"CREATE TABLE %@(unique_id TEXT PRIMARY KEY,set_id TEXT, image_name TEXT, point_value INTEGER, is_available INTEGER, price INTEGER);",kTABLE_ITEM];
     success = [db executeUpdate:query];
     
     query = [NSString stringWithFormat:@"CREATE TABLE %@(unique_id PRIMARY KEY UNIQUE, %@ REAL, %@ REAL, %@ REAL, %@ INTEGER, %@ INTEGER, %@ INTEGER, %@ INTEGER, %@ INTEGER);",kTABLE_USER,kUSER_BEST_SCORE_NORMAL,kUSER_BEST_SCORE_SURVIVAL,kUSER_BEST_SCORE_LUCKY,kUSER_BEST_COMBO_NORMAL,kUSER_BEST_COMBO_SURVIVAL,kUSER_BEST_COMBO_LUCKY,kSCORE_MULTIPLIER,kTOTAL_COINS];
@@ -56,7 +56,9 @@
     FMDatabase *db = [FMDatabase databaseWithPath:[FMDBAccess getDatabasePath]];
     [db open];
     NSString *query;
-    query =[NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ VALUES(\"%@\",\"%@\",\"%@\",\"%d\")",kTABLE_ITEM,[data.uniqueId lowercaseString],[data.setId lowercaseString],data.imageName,data.point];
+//    query =[NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ VALUES(\"%@\",\"%@\",\"%@\",\"%d\", %d, %d)",kTABLE_ITEM,[data.uniqueId lowercaseString],[data.setId lowercaseString],data.imageName,data.point,data.isAvailable,data.price];
+    query =[NSString stringWithFormat:@"INSERT INTO %@ VALUES(\"%@\",\"%@\",\"%@\",\"%d\", %d, %d)",kTABLE_ITEM,[data.uniqueId lowercaseString],[data.setId lowercaseString],data.imageName,data.point,data.isAvailable,data.price];
+
     BOOL success = [db executeUpdate:query];
     [db close];
     
@@ -76,29 +78,32 @@
 }
 
 + (void)createData{
-    int minPoint = 5;
-    int maxPoint = 8;
-    int setId = 0;
-    NSArray *plistData = [PlistHelper getArray:@"ItemData"];
-    for (NSArray *set in plistData) {
-        setId++;
-        for (NSDictionary *data in set) {
-            Item *object = [[Item alloc]init];
-            object.uniqueId = [data objectForKey:@"unique_id"];
-            object.setId = [NSString stringWithFormat:@"%d",setId];
-            object.imageName = [data objectForKey:@"image_name"];
-            object.point = minPoint+ arc4random() % (maxPoint-minPoint);
-            [FMDBAccess insertData:object];
+        NSDictionary *plistData = [PlistHelper getDictionary:@"ItemData2"];
+        for (NSDictionary *set in [plistData allValues]) {
+            NSString *setId = [set objectForKey:@"set_id"];
+            CGPoint points = CGPointFromString([set objectForKey:@"points"]);
+            int price = [[set objectForKey:@"price"] intValue];
+            for (NSDictionary *data in [set objectForKey:@"entries"]) {
+                Item *object = [[Item alloc]init];
+                object.uniqueId = [data objectForKey:@"unique_id"];
+                object.imageName = [data objectForKey:@"image_name"];
+                object.setId = setId;
+                object.point = AVERAGE(points.x, points.y);
+                object.price = price;
+                if([setId intValue] == 1){
+                    object.isAvailable = YES; // 1st set should be available for playing
+                }
+                [FMDBAccess insertData:object];
+            }
         }
-    }
 }
 
-+ (NSMutableArray *) getListItemWithSetId:(int)s{
++ (NSMutableArray *) getListItemWithSetId:(NSString *)s{
     NSMutableArray *temp = [[NSMutableArray alloc] init];
     FMDatabase *db = [FMDatabase databaseWithPath:[FMDBAccess getDatabasePath]];
     
     [db open];
-    NSString *query = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE set_id LIKE \"%d\"",kTABLE_ITEM,s];
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE set_id LIKE \"%@\"",kTABLE_ITEM,s];
     FMResultSet *results = [db executeQuery:query];
     while([results next]){
         Item *object = [[Item alloc] init];
@@ -121,12 +126,26 @@
     while([results next]){
         NSDictionary *data = @{@"set_id":[results stringForColumn:@"set_id"],
                                 @"unique_id":[results stringForColumn:@"unique_id"],
-                                @"image_name":[results stringForColumn:@"image_name"]};
+                                @"image_name":[results stringForColumn:@"image_name"],
+                                @"is_available":@([results intForColumn:@"is_available"]),
+                                @"price":@([results intForColumn:@"price"])};
         [temp addObject:data];
     }
     [db close];
     return temp;
 }
+
++ (BOOL)buyPackageWithSetId:(NSString *)s{
+    FMDatabase *db = [FMDatabase databaseWithPath:[FMDBAccess getDatabasePath]];
+    [db open];
+    NSString *query;
+    query =[NSString stringWithFormat:@"UPDATE %@ SET is_available=1 WHERE set_id = %@",kTABLE_ITEM,s];
+    BOOL success = [db executeUpdate:query];
+    [db close];
+    (success)?NSLog(@"Success!"):NSLog(@"Failed!");
+    return success;
+}
+
 
 
 + (UserData)loadUserData{

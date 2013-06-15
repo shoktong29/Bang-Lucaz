@@ -85,7 +85,8 @@ float const kMIN_SCORE = 60.0f;
 - (void)createObjects{
     [listObjects removeAllObjects];
     listObjects = nil;
-    listObjects = [FMDBAccess getListItemWithSetId:gameSettings.setId];
+    NSString *setId = [NSString stringWithFormat:@"%d",gameSettings.setId];
+    listObjects = [FMDBAccess getListItemWithSetId:setId];
 }
 
 - (void)setDefaultValues{
@@ -369,7 +370,7 @@ float const kMIN_SCORE = 60.0f;
     uiTickCounter += tick.timeInterval;
     score = (score > 0)?score:0;
 
-    if(uiTickCounter > 0.05f){
+    if(uiTickCounter > 0.01f){
         labelScore.text = [NSString stringWithFormat:@"%d",score];
         
         if (pointsToAdd >0) {

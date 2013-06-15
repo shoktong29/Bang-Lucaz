@@ -22,7 +22,6 @@
 + (BOOL)saveUserData:(UserData )data;
 + (UserData)loadUserData;
 + (NSMutableArray *) getSetIds;
-+ (NSMutableArray *) getListItemWithSetId:(int)s;
-
-
++ (NSMutableArray *) getListItemWithSetId:(NSString *)s;
++ (BOOL)buyPackageWithSetId:(NSString *)s;
 @end

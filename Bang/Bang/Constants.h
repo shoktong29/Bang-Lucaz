@@ -9,6 +9,8 @@
 #ifndef Bang_Constants_h
 #define Bang_Constants_h
 
+static NSString * const kHAS_DATA = @"first_launch";
+
 static NSString * const kUSER_DATA = @"user_data";
 static NSString * const kUSER_BEST_SCORE_NORMAL = @"best_score_normal";
 static NSString * const kUSER_BEST_COMBO_NORMAL = @"best_combo_normal";
