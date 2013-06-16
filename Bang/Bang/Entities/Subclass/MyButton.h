@@ -12,5 +12,6 @@
 @property (nonatomic, strong) NSString *uniqueId;
 @property (nonatomic, strong) NSString *setId;
 @property (nonatomic, strong) NSString *imageName;
+@property (nonatomic, strong) NSString *secondImage;
 @property (nonatomic) int point;
 @end

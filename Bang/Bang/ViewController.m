@@ -300,6 +300,7 @@ float const kMIN_SCORE = 60.0f;
         MyButton *btn = [[MyButton alloc]init];
         [btn addTarget:self action:@selector(bang:) forControlEvents:UIControlEventTouchDown];
         btn.imageName = object.imageName;
+        btn.secondImage = object.secondImage;
         if (gameSettings.gameMode == modeTimeAttack) {
             [btn setImage:[UIImage imageNamed:object.imageName] forState:UIControlStateDisabled];
             [btn setImage:[UIImage imageNamed:@"image-questionMark.png"] forState:UIControlStateNormal];
@@ -346,7 +347,7 @@ float const kMIN_SCORE = 60.0f;
     int selected = arc4random() % selectedItems.count;
     MyButton *btnTemp = [selectedItems objectAtIndex:selected];
 
-    stageActiveButton = [[UIImageView alloc]initWithImage:[UIImage imageNamed:btnTemp.imageName]];
+    stageActiveButton = [[UIImageView alloc]initWithImage:[UIImage imageNamed:btnTemp.secondImage]];
     stageActiveButton.frame = CGRectMake(0, 0, 120, 120);
     stageActiveButton.transform = CGAffineTransformMakeScale(0.3,0.3);
     stageActiveButton.layer.borderWidth = 3.0f;
@@ -448,12 +449,12 @@ float const kMIN_SCORE = 60.0f;
 }
 
 - (void)generateUiBubble:(id)sender{ // UI that fadesin above the answers when user taps on it.
-    CGSize bubbleSize = CGSizeMake(50, 30);
+    CGSize bubbleSize = CGSizeMake(100, 30);
     MyButton *temp = (MyButton *)sender;
     CGRect frame = [viewSelection convertRect:temp.frame toView:scrollView];
     CGPoint coords = {frame.origin.x+frame.size.width/2-bubbleSize.width/2,frame.origin.y};
     UiLabelOutline *label = [[UiLabelOutline alloc]init];
-    label.text = [NSString stringWithFormat:@"+%d",temp.point];
+    label.text = [NSString stringWithFormat:@"%d Combo!!",comboStreak];
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
     label.textAlignment = UITextAlignmentCenter;
@@ -507,9 +508,11 @@ float const kMIN_SCORE = 60.0f;
 
 - (void)didSelectCorrectAnswer:(MyButton *)sender{
     correctAnswers += 1;
-    [self generateUiBubble:sender];
     pointsToAdd += sender.point;
     comboStreak++;
+    if (comboStreak>2) {
+        [self generateUiBubble:sender];
+    }
     highestComboStreak = (comboStreak >= highestComboStreak)?comboStreak:highestComboStreak;
     // Delay execution of my block for 10 seconds.
     

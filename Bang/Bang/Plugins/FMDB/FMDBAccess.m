@@ -40,7 +40,7 @@
     
     [db open];
     BOOL success;
-    NSString *query = [NSString stringWithFormat:@"CREATE TABLE %@(unique_id TEXT PRIMARY KEY,set_id TEXT, image_name TEXT, point_value INTEGER, is_available INTEGER, price INTEGER);",kTABLE_ITEM];
+    NSString *query = [NSString stringWithFormat:@"CREATE TABLE %@(unique_id TEXT PRIMARY KEY,set_id TEXT, image_name TEXT, second_image TEXT, point_value INTEGER, is_available INTEGER, price INTEGER);",kTABLE_ITEM];
     success = [db executeUpdate:query];
     
     query = [NSString stringWithFormat:@"CREATE TABLE %@(unique_id PRIMARY KEY UNIQUE, %@ REAL, %@ REAL, %@ REAL, %@ INTEGER, %@ INTEGER, %@ INTEGER, %@ INTEGER, %@ INTEGER);",kTABLE_USER,kUSER_BEST_SCORE_NORMAL,kUSER_BEST_SCORE_SURVIVAL,kUSER_BEST_SCORE_LUCKY,kUSER_BEST_COMBO_NORMAL,kUSER_BEST_COMBO_SURVIVAL,kUSER_BEST_COMBO_LUCKY,kSCORE_MULTIPLIER,kTOTAL_COINS];
@@ -56,8 +56,8 @@
     FMDatabase *db = [FMDatabase databaseWithPath:[FMDBAccess getDatabasePath]];
     [db open];
     NSString *query;
-//    query =[NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ VALUES(\"%@\",\"%@\",\"%@\",\"%d\", %d, %d)",kTABLE_ITEM,[data.uniqueId lowercaseString],[data.setId lowercaseString],data.imageName,data.point,data.isAvailable,data.price];
-    query =[NSString stringWithFormat:@"INSERT INTO %@ VALUES(\"%@\",\"%@\",\"%@\",\"%d\", %d, %d)",kTABLE_ITEM,[data.uniqueId lowercaseString],[data.setId lowercaseString],data.imageName,data.point,data.isAvailable,data.price];
+    query =[NSString stringWithFormat:@"INSERT OR REPLACE INTO %@ VALUES(\"%@\",\"%@\",\"%@\",\"%@\",\"%d\", %d, %d)",kTABLE_ITEM,[data.uniqueId lowercaseString],[data.setId lowercaseString],data.imageName,data.secondImage, data.point,data.isAvailable,data.price];
+//    query =[NSString stringWithFormat:@"INSERT INTO %@ VALUES(\"%@\",\"%@\",\"%@\",\"%d\", %d, %d)",kTABLE_ITEM,[data.uniqueId lowercaseString],[data.setId lowercaseString],data.imageName,data.point,data.isAvailable,data.price];
 
     BOOL success = [db executeUpdate:query];
     [db close];
@@ -87,6 +87,7 @@
                 Item *object = [[Item alloc]init];
                 object.uniqueId = [data objectForKey:@"unique_id"];
                 object.imageName = [data objectForKey:@"image_name"];
+                object.secondImage = [data objectForKey:@"image_second"];
                 object.setId = setId;
                 object.point = AVERAGE(points.x, points.y);
                 object.price = price;
@@ -109,6 +110,7 @@
         Item *object = [[Item alloc] init];
         object.uniqueId = [results stringForColumn:@"unique_id"];
         object.imageName = [results stringForColumn:@"image_name"];
+        object.secondImage = [results stringForColumn:@"second_image"];
         object.point = [results intForColumn:@"point_value"];
         [temp addObject:object];
     }
@@ -127,6 +129,7 @@
         NSDictionary *data = @{@"set_id":[results stringForColumn:@"set_id"],
                                 @"unique_id":[results stringForColumn:@"unique_id"],
                                 @"image_name":[results stringForColumn:@"image_name"],
+                                @"second_image":[results stringForColumn:@"second_image"],
                                 @"is_available":@([results intForColumn:@"is_available"]),
                                 @"price":@([results intForColumn:@"price"])};
         [temp addObject:data];

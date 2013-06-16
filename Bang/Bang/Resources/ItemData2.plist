@@ -16,33 +16,57 @@
 				<key>unique_id</key>
 				<string>S1-0</string>
 				<key>image_name</key>
-				<string>image-a.png</string>
+				<string>blue-b.png</string>
+				<key>image_second</key>
+				<string>blue-a.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S1-1</string>
 				<key>image_name</key>
-				<string>image-b.png</string>
-				<key>points</key>
-				<string>{16-20}</string>
+				<string>green-b.png</string>
+				<key>image_second</key>
+				<string>green-a.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S1-2</string>
 				<key>image_name</key>
-				<string>image-c.png</string>
+				<string>orange-b.png</string>
+				<key>image_second</key>
+				<string>orange-a.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S1-3</string>
 				<key>image_name</key>
-				<string>image-d.png</string>
+				<string>pink-b.png</string>
+				<key>image_second</key>
+				<string>pink-a.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S1-4</string>
 				<key>image_name</key>
-				<string>image-e.png</string>
+				<string>red-b.png</string>
+				<key>image_second</key>
+				<string>red-a.png</string>
+			</dict>
+			<dict>
+				<key>unique_id</key>
+				<string>S1-5</string>
+				<key>image_name</key>
+				<string>violet-b.png</string>
+				<key>image_second</key>
+				<string>violet-a.png</string>
+			</dict>
+			<dict>
+				<key>unique_id</key>
+				<string>S1-6</string>
+				<key>image_name</key>
+				<string>yellow-b.png</string>
+				<key>image_second</key>
+				<string>yellow-a.png</string>
 			</dict>
 		</array>
 	</dict>
@@ -53,7 +77,7 @@
 		<key>points</key>
 		<string>{16,20}</string>
 		<key>price</key>
-		<integer>1000</integer>
+		<integer>500</integer>
 		<key>entries</key>
 		<array>
 			<dict>
@@ -61,72 +85,72 @@
 				<string>S2-0</string>
 				<key>image_name</key>
 				<string>meme0.png</string>
-				<key>points</key>
-				<string>{11-15}</string>
+				<key>image_second</key>
+				<string>meme0.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S2-1</string>
 				<key>image_name</key>
 				<string>meme1.png</string>
-				<key>points</key>
-				<string>{11-15}</string>
+				<key>image_second</key>
+				<string>meme1.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S2-2</string>
 				<key>image_name</key>
 				<string>meme2.png</string>
-				<key>points</key>
-				<string>{11-15}</string>
+				<key>image_second</key>
+				<string>meme2.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S2-3</string>
 				<key>image_name</key>
 				<string>meme3.png</string>
-				<key>points</key>
-				<string>{11-15}</string>
+				<key>image_second</key>
+				<string>meme3.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S2-4</string>
 				<key>image_name</key>
 				<string>meme4.png</string>
-				<key>points</key>
-				<string>{11-15}</string>
+				<key>image_second</key>
+				<string>meme4.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S2-5</string>
 				<key>image_name</key>
 				<string>meme5.png</string>
-				<key>points</key>
-				<string>{11-15}</string>
+				<key>image_second</key>
+				<string>meme5.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S2-6</string>
 				<key>image_name</key>
 				<string>meme6.png</string>
-				<key>points</key>
-				<string>{11-15}</string>
+				<key>image_second</key>
+				<string>meme6.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S2-7</string>
 				<key>image_name</key>
 				<string>meme7.png</string>
-				<key>points</key>
-				<string>{11-15}</string>
+				<key>image_second</key>
+				<string>meme7.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S2-8</string>
 				<key>image_name</key>
 				<string>meme8.png</string>
-				<key>points</key>
-				<string>{11-15}</string>
+				<key>image_second</key>
+				<string>meme8.png</string>
 			</dict>
 		</array>
 	</dict>
@@ -137,7 +161,7 @@
 		<key>points</key>
 		<string>{20,25}</string>
 		<key>price</key>
-		<integer>2000</integer>
+		<integer>1000</integer>
 		<key>entries</key>
 		<array>
 			<dict>
@@ -145,11 +169,15 @@
 				<string>S3-0</string>
 				<key>image_name</key>
 				<string>flag0.png</string>
+				<key>image_second</key>
+				<string>flag0.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S3-1</string>
 				<key>image_name</key>
+				<string>flag1.png</string>
+				<key>image_second</key>
 				<string>flag1.png</string>
 			</dict>
 			<dict>
@@ -157,11 +185,15 @@
 				<string>S3-2</string>
 				<key>image_name</key>
 				<string>flag2.png</string>
+				<key>image_second</key>
+				<string>flag2.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S3-3</string>
 				<key>image_name</key>
+				<string>flag3.png</string>
+				<key>image_second</key>
 				<string>flag3.png</string>
 			</dict>
 			<dict>
@@ -169,11 +201,15 @@
 				<string>S3-4</string>
 				<key>image_name</key>
 				<string>flag4.png</string>
+				<key>image_second</key>
+				<string>flag4.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S3-5</string>
 				<key>image_name</key>
+				<string>flag5.png</string>
+				<key>image_second</key>
 				<string>flag5.png</string>
 			</dict>
 			<dict>
@@ -181,17 +217,23 @@
 				<string>S3-6</string>
 				<key>image_name</key>
 				<string>flag6.png</string>
+				<key>image_second</key>
+				<string>flag6.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S3-7</string>
 				<key>image_name</key>
 				<string>flag7.png</string>
+				<key>image_second</key>
+				<string>flag7.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S3-8</string>
 				<key>image_name</key>
+				<string>flag8.png</string>
+				<key>image_second</key>
 				<string>flag8.png</string>
 			</dict>
 		</array>
@@ -203,7 +245,7 @@
 		<key>points</key>
 		<string>{26,30}</string>
 		<key>price</key>
-		<integer>3000</integer>
+		<integer>1000</integer>
 		<key>entries</key>
 		<array>
 			<dict>
@@ -211,11 +253,15 @@
 				<string>S4-0</string>
 				<key>image_name</key>
 				<string>ball0.png</string>
+				<key>image_second</key>
+				<string>flag0.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S4-1</string>
 				<key>image_name</key>
+				<string>ball1.png</string>
+				<key>image_second</key>
 				<string>ball1.png</string>
 			</dict>
 			<dict>
@@ -223,11 +269,15 @@
 				<string>S4-2</string>
 				<key>image_name</key>
 				<string>ball2.png</string>
+				<key>image_second</key>
+				<string>ball2.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S4-3</string>
 				<key>image_name</key>
+				<string>ball3.png</string>
+				<key>image_second</key>
 				<string>ball3.png</string>
 			</dict>
 			<dict>
@@ -235,17 +285,23 @@
 				<string>S4-4</string>
 				<key>image_name</key>
 				<string>ball4.png</string>
+				<key>image_second</key>
+				<string>ball4.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S4-5</string>
 				<key>image_name</key>
 				<string>ball5.png</string>
+				<key>image_second</key>
+				<string>ball5.png</string>
 			</dict>
 			<dict>
 				<key>unique_id</key>
 				<string>S4-6</string>
 				<key>image_name</key>
+				<string>ball6.png</string>
+				<key>image_second</key>
 				<string>ball6.png</string>
 			</dict>
 		</array>
